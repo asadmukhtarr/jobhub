@@ -717,7 +717,25 @@ The following screenshots will be added soon.
 - ⚙️ Settings Page
 
 ---
+# 📸 Screenshots
 
+## 🏠 Home Page
+![Home Page](screenshots/home.png)
+
+## 🏠 About Page
+![About Page](screenshots/about.png)
+
+## 🏠 Contact Page
+![Contact Page](screenshots/contact.png)
+---
+## 🔐 Login Page
+
+![Login Page](screenshots/login.png)
+
+---
+## 📝 Register Page
+
+![Register Page](screenshots/register.png)
 # 🛣️ Future Improvements
 
 The following features are planned for future releases.

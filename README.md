@@ -720,7 +720,7 @@ The following screenshots will be added soon.
 # 📸 Screenshots
 
 ## 🏠 Home Page
-![Home Page](screenshots/home.png)
+![Home](screenshots/Home.png)
 
 ## 🏠 About Page
 ![About Page](screenshots/about.png)
@@ -730,31 +730,31 @@ The following screenshots will be added soon.
 ---
 ## 🔐 Login Page
 
-![Login Page](screenshots/login.png)
+![Login](screenshots/login.png)
 
 ---
 ## 📝 Register Page
 
-![Register Page](screenshots/register.png)
+![Register](screenshots/register.png)
 
 ## 📝 Dashboard
 
-![Dashboard](screenshots/employeer/dashboard.png)
+![Dashboard](screenshots/seeker/dashboard.png)
 ## 📝 Create New Job
 
 ![Create New Job](screenshots/employeer/createnewjob.png)
 ## 📝 My Jobs
 
-![My Jobs](screenshots/employeer/myjobs.png)
+![My Jobs](screenshots/employer/myjobs.png)
 ## 📝 settings
 
-![Settings](screenshots/employeer/settings.png) 
+![Employer Settings](screenshots/employer/settings.png)
 ## 📝 showjobs
 
-![Show Jobs Portal ](screenshots/employeer/showjobs.png)
+![Show Jobs](screenshots/employer/showjobs.png)
 ## 📝 Applications For Seeker
 
-![My Applications ](screenshots/seeker/applications.png)
+![Applications](screenshots/seeker/Applications.png)
 
 # 🛣️ Future Improvements
 

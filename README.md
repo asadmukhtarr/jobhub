@@ -745,7 +745,7 @@ The following screenshots will be added soon.
 ![Create New Job](screenshots/employeer/createnewjob.png)
 ## 📝 My Jobs
 
-![My Jobs](screenshots/employeer/myjobs.png.png)
+![My Jobs](screenshots/employeer/myjobs.png)
 ## 📝 settings
 
 ![Settings](screenshots/employeer/settings.png) 

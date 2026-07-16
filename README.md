@@ -10,7 +10,134 @@
 ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 
 </p>
+# 🎯 Problem Statement
 
+Recruitment is often a time-consuming and inefficient process for both employers and job seekers. Companies struggle to manage job postings, organize applications, and track candidates through different hiring stages. On the other hand, job seekers frequently face difficulties finding relevant opportunities and monitoring the status of their applications.
+
+Traditional recruitment methods involve manual communication, scattered records, and limited visibility into the hiring process, leading to delays, poor user experience, and reduced productivity.
+
+---
+
+# 💡 Solution
+
+**JobHub** is designed to simplify the entire recruitment workflow by providing a centralized platform where employers and job seekers can interact efficiently.
+
+The platform offers role-based dashboards, secure authentication, application management, recruitment analytics, and real-time application tracking, creating a seamless hiring experience from job posting to final hiring decisions.
+
+---
+
+# ✨ Features
+
+## 👨‍💼 Employer Features
+
+| Feature | Description |
+|---------|-------------|
+| 📝 Job Management | Create, edit, update and delete job postings |
+| 👥 Applicant Management | View all applicants for every posted job |
+| 📊 Dashboard Analytics | Monitor applications and recruitment statistics |
+| ⭐ Candidate Shortlisting | Shortlist suitable candidates |
+| 🔄 Status Management | Update application status (Pending, Reviewed, Shortlisted, Rejected, Hired) |
+| 📄 Job Details | View complete job information and applicants |
+| 🔒 Secure Authentication | Session-based secure login |
+| 👤 Profile Management | Update company profile and account settings |
+| 🔑 Password Management | Change password securely |
+| 📈 Recruitment Insights | Track hiring activities through analytics |
+
+---
+
+## 👨‍🎓 Job Seeker Features
+
+| Feature | Description |
+|---------|-------------|
+| 🔍 Browse Jobs | Explore available job opportunities |
+| 🎯 Smart Search | Search jobs by title, category, location, and type |
+| 📄 Online Applications | Apply directly through the platform |
+| 📊 Application Tracking | Track every application status in real time |
+| ❌ Withdraw Applications | Withdraw pending applications |
+| ❤️ Save Jobs | Bookmark jobs for later |
+| 👤 Profile Management | Update profile information |
+| 🔑 Password Management | Secure password updates |
+| 📱 Responsive Dashboard | Access the platform from any device |
+
+---
+
+## 🌍 General Features
+
+- 🔐 Role-Based Authentication
+- 🔒 Session Management
+- 📱 Fully Responsive UI
+- 🎨 Clean Bootstrap Interface
+- 📊 Interactive Dashboard Charts
+- 🔔 Toast Notifications
+- ⚡ Fast Server-Side Rendering (EJS)
+- 🛡️ Secure Password Hashing
+- 📈 Analytics Dashboard
+- 📑 REST API Architecture
+- 📂 Organized Project Structure
+- 💻 Clean & Maintainable Codebase
+
+---
+
+# 🛠️ Technology Stack
+
+## Backend
+
+| Technology | Purpose |
+|------------|----------|
+| Node.js | JavaScript Runtime |
+| Express.js | Backend Framework |
+| MongoDB | NoSQL Database |
+| Mongoose | ODM for MongoDB |
+| Express Session | Session Management |
+| bcrypt | Password Hashing |
+| dotenv | Environment Variables |
+
+---
+
+## Frontend
+
+| Technology | Purpose |
+|------------|----------|
+| EJS | Server Side Rendering |
+| Bootstrap 5 | Responsive UI Framework |
+| HTML5 | Markup |
+| CSS3 | Styling |
+| JavaScript (ES6) | Client-side Functionality |
+| Font Awesome | Icons |
+| Chart.js | Dashboard Analytics |
+
+---
+
+## Development Tools
+
+| Tool | Purpose |
+|------|----------|
+| Git | Version Control |
+| GitHub | Repository Hosting |
+| VS Code | Development Environment |
+| MongoDB Compass | Database Management |
+| Postman | API Testing |
+| Nodemon | Development Server |
+
+---
+
+# 📊 Project Statistics
+
+| Metric | Value |
+|---------|------|
+| User Roles | 2 |
+| Database Collections | 3 |
+| API Endpoints | 20+ |
+| Dashboard Modules | 2 |
+| Project Pages | 25+ |
+| Job Types | 6 |
+| Application Statuses | 5 |
+| Authentication System | Session Based |
+| Responsive Design | ✅ |
+| REST APIs | ✅ |
+| Open Source | ✅ |
+
+---
 
 ## 🌟 About The Project
 

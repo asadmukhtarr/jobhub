@@ -1,0 +1,882 @@
+<!-- views/faq.ejs -->
+<%- include('includes/header', { title: 'FAQ - JobHub' , currentPage: 'faq' }) %>
+
+    <style>
+        .faq-hero {
+            background: linear-gradient(135deg, #0b3d3f 0%, #1a5f5c 25%, #1e88a0 50%, #2c9ba8 75%, #3aa8c5 100%);
+            padding: 60px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .faq-hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: floatFaq 8s ease-in-out infinite;
+        }
+
+        .faq-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -5%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            animation: floatFaq 6s ease-in-out infinite reverse;
+        }
+
+        @keyframes floatFaq {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(30px, -30px) rotate(10deg);
+            }
+        }
+
+        .faq-container {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            padding: 3rem;
+            margin-top: -40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-search-box {
+            background: #f8f9fa;
+            border-radius: 3rem;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .faq-search-box:focus-within {
+            border-color: #1e88a0;
+            box-shadow: 0 0 0 0.2rem rgba(30, 136, 160, 0.15);
+        }
+
+        .faq-search-box input {
+            border: none;
+            background: transparent;
+            padding: 0.8rem 1.5rem;
+            flex: 1;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .faq-search-box button {
+            background: linear-gradient(135deg, #1e88a0, #2c9ba8);
+            border: none;
+            border-radius: 2rem;
+            padding: 0.8rem 2rem;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .faq-search-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 136, 160, 0.4);
+        }
+
+        .faq-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .faq-categories .btn-category {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 2rem;
+            padding: 0.5rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #4a5568;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .faq-categories .btn-category:hover {
+            background: #e0f2f1;
+            border-color: #1e88a0;
+            color: #0b3d3f;
+        }
+
+        .faq-categories .btn-category.active {
+            background: linear-gradient(135deg, #1e88a0, #2c9ba8);
+            border-color: #1e88a0;
+            color: white;
+        }
+
+        .faq-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .faq-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .faq-section h3 {
+            color: #0b3d3f;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid #e0f2f1;
+        }
+
+        .faq-section h3 i {
+            color: #1e88a0;
+        }
+
+        .faq-item {
+            border: 1px solid #e9ecef;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: #1e88a0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .faq-question {
+            padding: 1.25rem 1.5rem;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .faq-question:hover {
+            background: #f8f9fa;
+        }
+
+        .faq-question h5 {
+            margin: 0;
+            font-weight: 600;
+            color: #0b3d3f;
+            font-size: 1.05rem;
+            flex: 1;
+            padding-right: 1rem;
+        }
+
+        .faq-question .faq-toggle {
+            color: #1e88a0;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-item.active .faq-question {
+            background: #f0f7fa;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            padding: 0 1.5rem;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .faq-answer p {
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-answer ul {
+            color: #4a5568;
+            line-height: 1.8;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-answer ul li {
+            margin-bottom: 0.25rem;
+        }
+
+        .faq-answer strong {
+            color: #0b3d3f;
+        }
+
+        .faq-no-results {
+            text-align: center;
+            padding: 3rem;
+            display: none;
+        }
+
+        .faq-no-results i {
+            font-size: 4rem;
+            color: #dee2e6;
+            margin-bottom: 1rem;
+        }
+
+        .faq-no-results h5 {
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-no-results p {
+            color: #6c757d;
+        }
+
+        .faq-contact-box {
+            background: linear-gradient(135deg, #e0f2f1, #b2dfdb);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .faq-contact-box h4 {
+            color: #0b3d3f;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-contact-box p {
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+
+        .faq-contact-box .btn-contact {
+            background: linear-gradient(135deg, #1e88a0, #2c9ba8);
+            border: none;
+            border-radius: 2rem;
+            padding: 10px 30px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .faq-contact-box .btn-contact:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(30, 136, 160, 0.4);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .faq-container {
+                padding: 1.5rem;
+                margin-top: -20px;
+            }
+
+            .faq-search-box {
+                flex-direction: column;
+                border-radius: 1.5rem;
+                padding: 0.5rem;
+            }
+
+            .faq-search-box input {
+                width: 100%;
+                padding: 0.8rem 1rem;
+            }
+
+            .faq-search-box button {
+                width: 100%;
+                border-radius: 1.5rem;
+                padding: 0.8rem;
+            }
+
+            .faq-categories {
+                gap: 0.3rem;
+            }
+
+            .faq-categories .btn-category {
+                font-size: 0.8rem;
+                padding: 0.4rem 1rem;
+            }
+
+            .faq-question h5 {
+                font-size: 0.95rem;
+            }
+
+            .faq-question {
+                padding: 1rem;
+            }
+
+            .faq-answer {
+                padding: 0 1rem;
+            }
+
+            .faq-item.active .faq-answer {
+                padding: 0 1rem 1rem;
+            }
+
+            .faq-contact-box {
+                padding: 1.25rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .faq-container {
+                padding: 1rem;
+            }
+
+            .faq-section h3 {
+                font-size: 1.1rem;
+            }
+
+            .faq-question h5 {
+                font-size: 0.9rem;
+            }
+
+            .faq-categories .btn-category {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.8rem;
+            }
+        }
+    </style>
+
+    <!-- FAQ Hero Section -->
+    <section class="faq-hero">
+        <div class="container text-center position-relative" style="z-index: 1;">
+            <i class="fa fa-question-circle fa-4x mb-4" style="animation: fadeInUp 0.6s ease;"></i>
+            <h1 class="display-4 fw-bold text-white" style="animation: fadeInUp 0.6s ease 0.1s backwards;">
+                Frequently Asked Questions
+            </h1>
+            <p class="lead text-white-50" style="animation: fadeInUp 0.6s ease 0.2s backwards;">
+                Find answers to commonly asked questions about JobHub
+            </p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="faq-container">
+            <!-- Search Box -->
+            <div class="faq-search-box">
+                <input type="text" id="faqSearch" placeholder="Search for answers..." onkeyup="searchFaq()">
+                <button onclick="searchFaq()">
+                    <i class="fa fa-search me-2"></i>Search
+                </button>
+            </div>
+
+            <!-- Categories -->
+            <div class="faq-categories">
+                <button class="btn-category active" data-category="all" onclick="filterCategory('all')">
+                    <i class="fa fa-list me-1"></i>All
+                </button>
+                <button class="btn-category" data-category="general" onclick="filterCategory('general')">
+                    <i class="fa fa-info-circle me-1"></i>General
+                </button>
+                <button class="btn-category" data-category="account" onclick="filterCategory('account')">
+                    <i class="fa fa-user me-1"></i>Account
+                </button>
+                <button class="btn-category" data-category="jobs" onclick="filterCategory('jobs')">
+                    <i class="fa fa-briefcase me-1"></i>Jobs
+                </button>
+                <button class="btn-category" data-category="applications" onclick="filterCategory('applications')">
+                    <i class="fa fa-file-text me-1"></i>Applications
+                </button>
+                <button class="btn-category" data-category="billing" onclick="filterCategory('billing')">
+                    <i class="fa fa-credit-card me-1"></i>Billing
+                </button>
+            </div>
+
+            <!-- No Results -->
+            <div class="faq-no-results" id="noResults">
+                <i class="fa fa-search"></i>
+                <h5>No results found</h5>
+                <p>Try adjusting your search terms or browse the categories above</p>
+            </div>
+
+            <!-- FAQ Sections -->
+            <div id="faqContent">
+                <!-- General Section -->
+                <div class="faq-section" data-category="general">
+                    <h3><i class="fa fa-info-circle"></i> General Questions</h3>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h5>What is JobHub?</h5>
+                            <span class="faq-toggle"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                JobHub is a comprehensive job portal that connects job seekers with employers.
+                                We provide a platform where employers can post job openings and job seekers can
+                                find and apply for their dream jobs. Our platform is designed to make the hiring
+                                process simple, efficient, and transparent for everyone.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h5>Is JobHub free to use?</h5>
+                            <span class="faq-toggle"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                Yes, JobHub is completely free for job seekers. Employers can create a free account
+                                to post job listings. We offer both free and premium features for employers to
+                                help them find the best talent.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h5>How does JobHub work?</h5>
+                            <span class="faq-toggle"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                JobHub works by connecting employers and job seekers on a single platform:
+                            </p>
+                            <ul>
+                                <li><strong>For Job Seekers:</strong> Create a profile, browse job listings, and apply
+                                    to positions that match your skills and experience.</li>
+                                <li><strong>For Employers:</strong> Create a company profile, post job openings, and
+                                    review applications from qualified candidates.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Section -->
+                <div class="faq-section" data-category="account">
+                    <h3><i class="fa fa-user"></i> Account Questions</h3>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h5>How do I create an account?</h5>
+                            <span class="faq-toggle"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                Creating an account is simple and takes just a few minutes:
+                            </p>
+                            <ul>
+                                <li>Click on the "Register" or "Sign Up" button</li>
+                                <li>Fill in your personal details (name, email, password)</li>
+                                <li>Select your account type (Job Seeker or Employer)</li>
+                                <li>Accept our Terms & Conditions and Privacy Policy</li>
+                                <li>Click "Register" to create your account</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h5>What should I do if I forgot my password?</h5>
+                            <span class="faq-toggle"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                If you've forgotten your password, follow these steps:
+                            </p>
+                            <ul>
+                                <li>Go to the login page</li>
+                                <li>Click on "Forgot Password" link</li>
+                                <li>Enter your registered email address</li>
+                                <li>Check your email for a password reset link</li>
+                                <li>Follow the instructions to create a new password</li>
+                            </ul>
+                            <p>If you don't receive the email, please check your spam folder or contact our support
+                                team.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h5>Can I change my account type?</h5>
+                            <span class="faq-toggle"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                Currently, you cannot change your account type after registration. If you need to
+                                switch from Job Seeker to Employer (or vice versa), we recommend creating a new
+                                account with the appropriate type. If you have specific needs, please contact our
+                                support team for assistance.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h5>How do I delete my account?</h5>
+                            <span class="faq-toggle"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                To delete your account:
+                            </p>
+                            <ul>
+                                <li>Log in to your account</li>
+                                <li>Go to Settings</li>
+                                <li>Scroll down to the "Danger Zone" section</li>
+                                <li>Type "DELETE" to confirm</li>
+                                <li>Click on "Delete Account"</li>
+                            </ul>
+                            <p><strong>Note:</strong> This action is permanent and cannot be undone. All your data will
+                                be permanently removed from our system.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jobs Section -->
+                <div class="faq-section" data-category="jobs">
+                    <h3><i class="fa fa-briefcase"></i> Jobs Questions</h3>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h5>How do I post a job?</h5>
+                            <span class="faq-toggle"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                Employers can post a job by following these steps:
+                            </p>
+                            <ul>
+                                <li>Log in to your employer account</li>
+                                <li>Click on "Post New Job"</li>
+                                <li>Fill in the job details (title, type, location, salary, description, requirements)
+                                </li>
+                                <li>Add required skills and any additional information</li>
+                                <li>Choose job status (Active, Draft, or Closed)</li>
+                                <li>Click "Publish Job" to make it live</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h5>How long does it take for a job to be posted?</h5>
+                            <span class="faq-toggle"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                Once you click "Publish Job," your job listing will be live immediately.
+                                It will be visible to job seekers on our platform and searchable through our
+                                job search engine. We also send notifications to relevant job seekers who have
+                                subscribed to job alerts.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h5>Can I edit or delete a job posting?</h5>
+                            <span class="faq-toggle"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                Yes, employers can edit or delete their job postings:
+                            </p>
+                            <ul>
+                                <li><strong>Edit:</strong> Go to "My Jobs," click on the job, and select "Edit Job"</li>
+                                <li><strong>Delete:</strong> Go to "My Jobs," click on the job, and select "Delete Job"
+                                </li>
+                                <li><strong>Update Status:</strong> You can also change the job status
+                                    (Active/Draft/Closed)</li>
+                            </ul>
+                            <p>Note: Only the employer who posted the job can edit or delete it.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Applications Section -->
+                <div class="faq-section" data-category="applications">
+                    <h3><i class="fa fa-file-text"></i> Applications Questions</h3>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h5>How do I apply for a job?</h5>
+                            <span class="faq-toggle"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                To apply for a job:
+                            </p>
+                            <ul>
+                                <li>Browse job listings on the platform</li>
+                                <li>Click on a job that interests you</li>
+                                <li>Click the "Apply Now" button</li>
+                                <li>Fill in the application form (personal info, experience, skills, cover letter)</li>
+                                <li>Upload your resume/CV</li>
+                                <li>Submit your application</li>
+                            </ul>
+                            <p>You will receive a confirmation email once your application is submitted.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h5>Can I track my application status?</h5>
+                            <span class="faq-toggle"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                Yes! You can track your application status:
+                            </p>
+                            <ul>
+                                <li>Log in to your account</li>
+                                <li>Go to "My Applications"</li>
+                                <li>Check the status of each application:</li>
+                                <li><strong>Pending</strong> - Application submitted, awaiting review</li>
+                                <li><strong>Reviewed</strong> - Employer has viewed your application</li>
+                                <li><strong>Shortlisted</strong> - You've been shortlisted for the position</li>
+                                <li><strong>Rejected</strong> - Application was not selected</li>
+                                <li><strong>Hired</strong> - Congratulations! You've been hired</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h5>Can I withdraw my application?</h5>
+                            <span class="faq-toggle"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                Yes, you can withdraw your application if it's still in "Pending" status:
+                            </p>
+                            <ul>
+                                <li>Go to "My Applications"</li>
+                                <li>Find the application you want to withdraw</li>
+                                <li>Click the "Withdraw" button</li>
+                                <li>Confirm your decision</li>
+                            </ul>
+                            <p>Once withdrawn, the application will be removed and you won't be able to reapply for the
+                                same position.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Billing Section -->
+                <div class="faq-section" data-category="billing">
+                    <h3><i class="fa fa-credit-card"></i> Billing Questions</h3>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h5>Is there a fee for using JobHub?</h5>
+                            <span class="faq-toggle"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                JobHub offers a freemium model:
+                            </p>
+                            <ul>
+                                <li><strong>Job Seekers:</strong> Free forever</li>
+                                <li><strong>Employers:</strong> Free for basic job postings. Premium features available
+                                    for advanced features like:</li>
+                                <li>Featured job listings</li>
+                                <li>Advanced candidate filtering</li>
+                                <li>Unlimited job postings</li>
+                                <li>Priority support</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h5>What payment methods do you accept?</h5>
+                            <span class="faq-toggle"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                We accept the following payment methods:
+                            </p>
+                            <ul>
+                                <li>Credit Cards (Visa, Mastercard, American Express)</li>
+                                <li>Debit Cards</li>
+                                <li>PayPal</li>
+                                <li>Bank Transfers (for annual subscriptions)</li>
+                            </ul>
+                            <p>All payments are securely processed through our encrypted payment gateway.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h5>How can I cancel my subscription?</h5>
+                            <span class="faq-toggle"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>
+                                To cancel your subscription:
+                            </p>
+                            <ul>
+                                <li>Log in to your employer account</li>
+                                <li>Go to "Settings"</li>
+                                <li>Click on "Subscription"</li>
+                                <li>Select "Cancel Subscription"</li>
+                                <li>Confirm your cancellation</li>
+                            </ul>
+                            <p>Your subscription will remain active until the end of your current billing period.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="faq-contact-box">
+                <i class="fa fa-envelope fa-3x text-primary mb-3"></i>
+                <h4>Still have questions?</h4>
+                <p>
+                    We're here to help! If you couldn't find the answer you were looking for,
+                    please don't hesitate to contact our support team.
+                </p>
+                <a href="/contact" class="btn-contact">
+                    <i class="fa fa-envelope me-2"></i>Contact Support
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle FAQ item
+        function toggleFaq(element) {
+            const item = element.closest('.faq-item');
+            const isActive = item.classList.contains('active');
+
+            // Close all other items in the same section
+            const section = item.closest('.faq-section');
+            section.querySelectorAll('.faq-item').forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                }
+            });
+
+            // Toggle this item
+            if (isActive) {
+                item.classList.remove('active');
+            } else {
+                item.classList.add('active');
+            }
+        }
+
+        // Filter by category
+        function filterCategory(category) {
+            // Update active button
+            document.querySelectorAll('.btn-category').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.btn-category[data-category="${category}"]`).classList.add('active');
+
+            // Show/hide sections
+            document.querySelectorAll('.faq-section').forEach(section => {
+                if (category === 'all' || section.dataset.category === category) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+
+            // Reset search
+            document.getElementById('faqSearch').value = '';
+            document.getElementById('noResults').style.display = 'none';
+            document.getElementById('faqContent').style.display = 'block';
+
+            // Reset all FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+        }
+
+        // Search FAQ
+        function searchFaq() {
+            const searchTerm = document.getElementById('faqSearch').value.toLowerCase().trim();
+            const items = document.querySelectorAll('.faq-item');
+            let hasResults = false;
+
+            if (searchTerm === '') {
+                // Reset to show all
+                document.querySelectorAll('.faq-section').forEach(section => {
+                    section.style.display = 'block';
+                });
+                document.getElementById('noResults').style.display = 'none';
+                document.getElementById('faqContent').style.display = 'block';
+                items.forEach(item => {
+                    item.style.display = '';
+                });
+                return;
+            }
+
+            items.forEach(item => {
+                const question = item.querySelector('.faq-question h5').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = '';
+                    hasResults = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Show/hide no results message
+            if (!hasResults) {
+                document.getElementById('noResults').style.display = 'block';
+                document.getElementById('faqContent').style.display = 'none';
+            } else {
+                document.getElementById('noResults').style.display = 'none';
+                document.getElementById('faqContent').style.display = 'block';
+            }
+
+            // Show all sections and let the search do the filtering
+            document.querySelectorAll('.faq-section').forEach(section => {
+                section.style.display = 'block';
+            });
+        }
+
+        // Enter key support for search
+        document.getElementById('faqSearch').addEventListener('keyup', function (e) {
+            if (e.key === 'Enter') {
+                searchFaq();
+            }
+        });
+
+        // Auto-expand first FAQ item on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            const firstItem = document.querySelector('.faq-item');
+            if (firstItem) {
+                setTimeout(() => {
+                    firstItem.classList.add('active');
+                }, 500);
+            }
+        });
+    </script>
+
+    <%- include('includes/footer') %>

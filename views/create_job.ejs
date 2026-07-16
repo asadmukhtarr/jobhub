@@ -1,0 +1,140 @@
+<%- include('includes/header', { title: 'Create New Job' , currentPage: 'Job' }) %>
+
+    <div class="container-fluid mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">
+                            <i class="fa fa-briefcase"></i> Post a New Job
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="/save/job" method="POST" id="jobForm">
+
+                            <!-- Job Title -->
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Job Title *</label>
+                                <input type="text" class="form-control" id="title" name="title" required
+                                    placeholder="e.g., Senior Software Engineer">
+                            </div>
+
+                            <!-- Job Type and Location Row -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="type" class="form-label">Job Type *</label>
+                                    <select class="form-control" id="type" name="type" required>
+                                        <option value="">Select Job Type</option>
+                                        <option value="Full-time">Full-time</option>
+                                        <option value="Part-time">Part-time</option>
+                                        <option value="Contract">Contract</option>
+                                        <option value="Freelance">Freelance</option>
+                                        <option value="Internship">Internship</option>
+                                        <option value="Remote">Remote</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="location" class="form-label">Location *</label>
+                                    <input type="text" class="form-control" id="location" name="location" required
+                                        placeholder="e.g., New York, NY or Remote">
+                                </div>
+                            </div>
+
+                            <!-- Salary and Experience Row -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="salary" class="form-label">Salary Range</label>
+                                    <input type="text" class="form-control" id="salary" name="salary"
+                                        placeholder="e.g., $50,000 - $70,000">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="experience" class="form-label">Experience Required *</label>
+                                    <select class="form-control" id="experience" name="experience" required>
+                                        <option value="">Select Experience</option>
+                                        <option value="Entry Level">Entry Level (0-1 years)</option>
+                                        <option value="Junior">Junior (1-3 years)</option>
+                                        <option value="Mid-Level">Mid-Level (3-5 years)</option>
+                                        <option value="Senior">Senior (5-8 years)</option>
+                                        <option value="Lead">Lead (8+ years)</option>
+                                        <option value="Executive">Executive (10+ years)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Vacancies and Status Row -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="vacancies" class="form-label">Number of Vacancies *</label>
+                                    <input type="number" class="form-control" id="vacancies" name="vacancies" required
+                                        min="1" value="1">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="status" class="form-label">Job Status *</label>
+                                    <select class="form-control" id="status" name="status" required>
+                                        <option value="active">Active</option>
+                                        <option value="draft">Draft</option>
+                                        <option value="closed">Closed</option>
+                                        <option value="expired">Expired</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Skills Required -->
+                            <div class="mb-3">
+                                <label for="skills" class="form-label">Skills Required *</label>
+                                <input type="text" class="form-control" id="skills" name="skills" required
+                                    placeholder="e.g., JavaScript, React, Node.js, MongoDB">
+                                <small class="text-muted">Separate skills with commas</small>
+                            </div>
+
+                            <!-- Job Description -->
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Job Description *</label>
+                                <textarea class="form-control" id="description" name="description" rows="5" required
+                                    placeholder="Describe the job role, responsibilities, and what the candidate will do..."></textarea>
+                            </div>
+
+                            <!-- Requirements -->
+                            <div class="mb-3">
+                                <label for="requirements" class="form-label">Requirements *</label>
+                                <textarea class="form-control" id="requirements" name="requirements" rows="4" required
+                                    placeholder="List the qualifications, education, and experience required..."></textarea>
+                                <small class="text-muted">Use bullet points or numbered list for clarity</small>
+                            </div>
+
+                            <!-- Hidden Fields -->
+                            <input type="hidden" name="user_id" value="<%= user.userId %>">
+                            <input type="hidden" name="views" value="0">
+
+                            <!-- Form Buttons -->
+                            <div class="d-flex justify-content-between mt-4">
+                                <a href="/dashboard" class="btn btn-secondary">
+                                    <i class="fa fa-arrow-left"></i> Cancel
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-save"></i> Post Job
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Optional: Add form validation
+        document.getElementById('jobForm').addEventListener('submit', function (e) {
+            const skills = document.getElementById('skills').value;
+            if (skills.trim() === '') {
+                e.preventDefault();
+                alert('Please enter at least one skill');
+                return false;
+            }
+
+            // Convert comma-separated skills to array before submitting (optional)
+            // You can also handle this on the backend
+        });
+    </script>
+
+    <%- include('includes/footer') %>

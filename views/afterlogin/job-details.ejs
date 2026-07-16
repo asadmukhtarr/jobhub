@@ -1,0 +1,343 @@
+<!-- Applicants Section - Add this after the Job Details Grid -->
+<div class="row mt-4">
+    <div class="col-12">
+        <!-- Applicants Section -->
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fa fa-users text-primary me-2"></i>
+                    Applicants (<%= applicants ? applicants.length : 0 %>)
+                </h5>
+                <div class="d-flex gap-2">
+                    <select class="form-select form-select-sm" style="width: auto;"
+                        onchange="filterApplicants(this.value)">
+                        <option value="all">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="reviewed">Reviewed</option>
+                        <option value="shortlisted">Shortlisted</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="hired">Hired</option>
+                    </select>
+                    <input type="text" class="form-control form-control-sm" placeholder="Search..."
+                        style="width: 200px;" onkeyup="searchApplicants(this.value)">
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Applicant Statistics -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-2 col-6">
+                        <div class="text-center">
+                            <h6 class="text-muted mb-1">Total</h6>
+                            <h4 class="mb-0">
+                                <%= applicantStats ? applicantStats.total : 0 %>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <div class="text-center">
+                            <h6 class="text-muted mb-1">Pending</h6>
+                            <h4 class="mb-0 text-warning">
+                                <%= applicantStats ? applicantStats.pending : 0 %>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <div class="text-center">
+                            <h6 class="text-muted mb-1">Reviewed</h6>
+                            <h4 class="mb-0 text-info">
+                                <%= applicantStats ? applicantStats.reviewed : 0 %>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <div class="text-center">
+                            <h6 class="text-muted mb-1">Shortlisted</h6>
+                            <h4 class="mb-0 text-success">
+                                <%= applicantStats ? applicantStats.shortlisted : 0 %>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <div class="text-center">
+                            <h6 class="text-muted mb-1">Rejected</h6>
+                            <h4 class="mb-0 text-danger">
+                                <%= applicantStats ? applicantStats.rejected : 0 %>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <div class="text-center">
+                            <h6 class="text-muted mb-1">Hired</h6>
+                            <h4 class="mb-0 text-primary">
+                                <%= applicantStats ? applicantStats.hired : 0 %>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Applicants Table -->
+                <% if (applicants && applicants.length> 0) { %>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle" id="applicantsTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Applicant</th>
+                                    <th>Contact</th>
+                                    <th>Applied Date</th>
+                                    <th>Skills</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% applicants.forEach((app, index)=> { %>
+                                    <tr class="applicant-row" data-status="<%= app.status %>">
+                                        <td>
+                                            <%= index + 1 %>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-circle me-2"
+                                                    style="width: 40px; height: 40px; background: #e9ecef; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fa fa-user text-secondary"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="fw-semibold">
+                                                        <%= app.fullName || app.userName || 'N/A' %>
+                                                    </div>
+                                                    <small class="text-muted">
+                                                        <%= app.experience || 'N/A' %> experience
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <i class="fa fa-envelope me-1 text-muted"></i>
+                                                <small>
+                                                    <%= app.email || 'N/A' %>
+                                                </small>
+                                            </div>
+                                            <div>
+                                                <i class="fa fa-phone me-1 text-muted"></i>
+                                                <small>
+                                                    <%= app.phone || 'N/A' %>
+                                                </small>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <i class="fa fa-calendar me-1 text-muted"></i>
+                                                <%= app.appliedDateFormatted %>
+                                            </div>
+                                            <small class="text-muted">
+                                                <i class="fa fa-clock-o me-1"></i>
+                                                <%= app.appliedDaysAgo %>
+                                            </small>
+                                        </td>
+                                        <td>
+                                            <% if (app.skills && app.skills.length> 0) { %>
+                                                <div class="d-flex flex-wrap gap-1">
+                                                    <% app.skills.slice(0, 2).forEach(skill=> { %>
+                                                        <span class="badge bg-light text-dark border">
+                                                            <%= skill %>
+                                                        </span>
+                                                        <% }) %>
+                                                            <% if (app.skills.length> 2) { %>
+                                                                <span class="badge bg-light text-dark border">
+                                                                    +<%= app.skills.length - 2 %>
+                                                                </span>
+                                                                <% } %>
+                                                </div>
+                                                <% } else { %>
+                                                    <span class="text-muted">No skills</span>
+                                                    <% } %>
+                                        </td>
+                                        <td>
+                                            <% const statusColors={ 'pending' : 'warning' , 'reviewed' : 'info'
+                                                , 'shortlisted' : 'success' , 'rejected' : 'danger' , 'hired'
+                                                : 'primary' }; const statusIcons={ 'pending' : 'fa-clock-o' , 'reviewed'
+                                                : 'fa-eye' , 'shortlisted' : 'fa-star' , 'rejected' : 'fa-times'
+                                                , 'hired' : 'fa-check-circle' }; %>
+                                                <span
+                                                    class="badge bg-<%= statusColors[app.status] || 'secondary' %> status-badge">
+                                                    <i
+                                                        class="fa <%= statusIcons[app.status] || 'fa-circle' %> me-1"></i>
+                                                    <%= app.status ? app.status.charAt(0).toUpperCase() +
+                                                        app.status.slice(1) : 'Pending' %>
+                                                </span>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm">
+                                                <button class="btn btn-outline-primary"
+                                                    onclick="viewApplicant('<%= app._id %>')" title="View Details">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                                <button class="btn btn-outline-success"
+                                                    onclick="updateStatus('<%= app._id %>', 'shortlisted')"
+                                                    title="Shortlist">
+                                                    <i class="fa fa-star"></i>
+                                                </button>
+                                                <button class="btn btn-outline-info"
+                                                    onclick="updateStatus('<%= app._id %>', 'reviewed')"
+                                                    title="Mark as Reviewed">
+                                                    <i class="fa fa-check"></i>
+                                                </button>
+                                                <button class="btn btn-outline-danger"
+                                                    onclick="updateStatus('<%= app._id %>', 'rejected')" title="Reject">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <% } else { %>
+                        <!-- No Applicants -->
+                        <div class="text-center py-5">
+                            <div class="mb-4">
+                                <i class="fa fa-users" style="font-size: 4rem; color: #dee2e6;"></i>
+                            </div>
+                            <h5 class="text-muted">No applicants yet</h5>
+                            <p class="text-muted mb-0">This job hasn't received any applications yet.</p>
+                        </div>
+                        <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update the JavaScript at the bottom -->
+<script>
+    // ... existing code ...
+
+    // Filter applicants by status
+    function filterApplicants(status) {
+        const rows = document.querySelectorAll('.applicant-row');
+        if (status === 'all') {
+            rows.forEach(row => row.style.display = '');
+        } else {
+            rows.forEach(row => {
+                const rowStatus = row.getAttribute('data-status');
+                if (rowStatus === status) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    }
+
+    // Search applicants
+    function searchApplicants(searchTerm) {
+        const rows = document.querySelectorAll('.applicant-row');
+        const term = searchTerm.toLowerCase();
+
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            if (text.includes(term)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    // View applicant details
+    function viewApplicant(applicationId) {
+        // You can implement a modal or redirect to a details page
+        alert('View application details for ID: ' + applicationId);
+        // window.location.href = '/applications/' + applicationId;
+    }
+
+    // Update application status
+    function updateStatus(applicationId, status) {
+        const statusLabels = {
+            'pending': 'Pending',
+            'reviewed': 'Reviewed',
+            'shortlisted': 'Shortlisted',
+            'rejected': 'Rejected',
+            'hired': 'Hired'
+        };
+
+        if (confirm(`Are you sure you want to mark this application as "${statusLabels[status] || status}"?`)) {
+            fetch('/applications/update-status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    applicationId: applicationId,
+                    status: status
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Reload the page to show updated status
+                        window.location.reload();
+                    } else {
+                        alert('Error updating status: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while updating the status.');
+                });
+        }
+    }
+
+    // Existing delete and toggle functions...
+</script>
+
+<!-- Add this CSS -->
+<style>
+    /* ... existing styles ... */
+
+    .avatar-circle {
+        width: 40px;
+        height: 40px;
+        background: #f0f2f5;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .table th {
+        font-weight: 600;
+        color: #495057;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .table td {
+        padding: 1rem 0.75rem;
+        vertical-align: middle;
+    }
+
+    .badge {
+        padding: 0.5rem 0.75rem;
+        font-weight: 500;
+    }
+
+    .btn-group .btn {
+        padding: 0.25rem 0.5rem;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(13, 110, 253, 0.03);
+    }
+
+    /* Status badge animations */
+    .status-badge {
+        transition: all 0.3s ease;
+    }
+
+    .status-badge:hover {
+        transform: scale(1.05);
+    }
+</style>

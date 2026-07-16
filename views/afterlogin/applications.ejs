@@ -1,0 +1,379 @@
+<!-- views/afterlogin/applications.ejs -->
+<div>
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-0">
+                <i class="fa fa-file-text text-primary me-2"></i>My Applications
+            </h2>
+            <p class="text-muted mb-0">Track all your job applications in one place</p>
+        </div>
+        <div>
+            <a href="/jobs" class="btn btn-primary">
+                <i class="fa fa-search me-2"></i>Browse More Jobs
+            </a>
+        </div>
+    </div>
+
+    <!-- Error Message -->
+    <% if (error) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fa fa-exclamation-circle me-2"></i>
+            <%= error %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <% } %>
+
+            <!-- Statistics Cards -->
+            <div class="row mb-4">
+                <div class="col-md-3 mb-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-muted mb-1">Total Applications</h6>
+                                    <h3 class="mb-0 fw-bold">
+                                        <%= stats.total || 0 %>
+                                    </h3>
+                                </div>
+                                <div class="bg-primary bg-opacity-10 p-3 rounded-circle">
+                                    <i class="fa fa-file-text fa-2x text-primary"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-muted mb-1">Pending</h6>
+                                    <h3 class="mb-0 fw-bold text-warning">
+                                        <%= stats.pending || 0 %>
+                                    </h3>
+                                </div>
+                                <div class="bg-warning bg-opacity-10 p-3 rounded-circle">
+                                    <i class="fa fa-clock-o fa-2x text-warning"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-muted mb-1">Shortlisted</h6>
+                                    <h3 class="mb-0 fw-bold text-success">
+                                        <%= stats.shortlisted || 0 %>
+                                    </h3>
+                                </div>
+                                <div class="bg-success bg-opacity-10 p-3 rounded-circle">
+                                    <i class="fa fa-star fa-2x text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-muted mb-1">Rejected</h6>
+                                    <h3 class="mb-0 fw-bold text-danger">
+                                        <%= stats.rejected || 0 %>
+                                    </h3>
+                                </div>
+                                <div class="bg-danger bg-opacity-10 p-3 rounded-circle">
+                                    <i class="fa fa-times-circle fa-2x text-danger"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applications List -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0 py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-bold">
+                            <i class="fa fa-list me-2"></i>All Applications
+                        </h5>
+                        <span class="badge bg-primary">
+                            <%= applications.length || 0 %> applications
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <% if (applications && applications.length> 0) { %>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Job Title</th>
+                                        <th>Company</th>
+                                        <th>Applied Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% applications.forEach((app, index)=> { %>
+                                        <tr>
+                                            <td>
+                                                <%= index + 1 %>
+                                            </td>
+                                            <td>
+                                                <div class="fw-semibold">
+                                                    <a href="/job/<%= app.jobId %>"
+                                                        class="text-decoration-none text-dark">
+                                                        <%= app.jobTitle %>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <i class="fa fa-building text-muted me-1"></i>
+                                                    <%= app.companyName %>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <i class="fa fa-calendar text-muted me-1"></i>
+                                                    <%= new Date(app.appliedAt).toLocaleDateString('en-US', {
+                                                        year: 'numeric' , month: 'short' , day: 'numeric' }) %>
+                                                </div>
+                                                <small class="text-muted">
+                                                    <i class="fa fa-clock-o me-1"></i>
+                                                    <%= new Date(app.appliedAt).toLocaleTimeString('en-US', {
+                                                        hour: '2-digit' , minute: '2-digit' }) %>
+                                                </small>
+                                            </td>
+                                            <td>
+                                                <% const statusColors={ 'pending' : 'warning' , 'reviewed' : 'info'
+                                                    , 'shortlisted' : 'success' , 'rejected' : 'danger' , 'hired'
+                                                    : 'primary' }; const statusIcons={ 'pending' : 'fa-clock-o'
+                                                    , 'reviewed' : 'fa-eye' , 'shortlisted' : 'fa-star' , 'rejected'
+                                                    : 'fa-times' , 'hired' : 'fa-check-circle' }; %>
+                                                    <span
+                                                        class="badge bg-<%= statusColors[app.status] || 'secondary' %>">
+                                                        <i
+                                                            class="fa <%= statusIcons[app.status] || 'fa-circle' %> me-1"></i>
+                                                        <%= app.status ? app.status.charAt(0).toUpperCase() +
+                                                            app.status.slice(1) : 'Pending' %>
+                                                    </span>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="/admin/job/<%= app.jobId %>"
+                                                        class="btn btn-outline-primary" title="View Job">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                    <% if (app.status==='pending' ) { %>
+                                                        <button class="btn btn-outline-danger"
+                                                            onclick="withdrawApplication('<%= app._id %>')"
+                                                            title="Withdraw Application">
+                                                            <i class="fa fa-times"></i>
+                                                        </button>
+                                                        <% } %>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <% } else { %>
+                            <!-- Empty State -->
+                            <div class="text-center py-5">
+                                <div class="mb-4">
+                                    <i class="fa fa-file-text-o" style="font-size: 4rem; color: #dee2e6;"></i>
+                                </div>
+                                <h5 class="text-muted">No applications yet</h5>
+                                <p class="text-muted mb-3">You haven't applied to any jobs yet. Start your job search
+                                    now!</p>
+                                <a href="/jobs" class="btn btn-primary">
+                                    <i class="fa fa-search me-2"></i>Browse Jobs
+                                </a>
+                            </div>
+                            <% } %>
+                </div>
+            </div>
+
+            <!-- Application Tips -->
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <i class="fa fa-check-circle fa-3x text-success mb-3"></i>
+                            <h6>Keep Track</h6>
+                            <p class="text-muted small">Monitor your application status and respond to updates quickly
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <i class="fa fa-bell fa-3x text-warning mb-3"></i>
+                            <h6>Stay Updated</h6>
+                            <p class="text-muted small">Check your email regularly for interview invitations and updates
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <i class="fa fa-rocket fa-3x text-primary mb-3"></i>
+                            <h6>Apply More</h6>
+                            <p class="text-muted small">Keep applying to increase your chances of landing your dream job
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+
+<style>
+    .table th {
+        font-weight: 600;
+        color: #495057;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .table td {
+        padding: 1rem 0.75rem;
+        vertical-align: middle;
+    }
+
+    .badge {
+        padding: 0.5rem 0.75rem;
+        font-weight: 500;
+    }
+
+    .btn-group .btn {
+        padding: 0.25rem 0.5rem;
+    }
+
+    .card {
+        border-radius: 0.75rem;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(13, 110, 253, 0.03);
+    }
+
+    /* Status Badge Animations */
+    .badge {
+        transition: all 0.3s ease;
+    }
+
+    .badge:hover {
+        transform: scale(1.05);
+    }
+
+    /* Card Hover Effects */
+    .card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .table-responsive {
+            font-size: 0.85rem;
+        }
+
+        .btn-group .btn {
+            padding: 0.2rem 0.4rem;
+            font-size: 0.75rem;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 0.3rem 0.5rem;
+        }
+    }
+</style>
+
+<script>
+    // Withdraw application function
+    function withdrawApplication(applicationId) {
+        if (confirm('Are you sure you want to withdraw this application? This action cannot be undone.')) {
+            fetch(`/applications/withdraw/${applicationId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Reload the page to show updated list
+                        window.location.reload();
+                    } else {
+                        alert('Error withdrawing application: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while withdrawing the application.');
+                });
+        }
+    }
+
+    // Filter applications by status
+    function filterApplications(status) {
+        const rows = document.querySelectorAll('tbody tr');
+        if (status === 'all') {
+            rows.forEach(row => row.style.display = '');
+        } else {
+            rows.forEach(row => {
+                const statusBadge = row.querySelector('.badge');
+                if (statusBadge && statusBadge.textContent.trim().toLowerCase() === status) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    }
+
+    // Search applications
+    function searchApplications() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const rows = document.querySelectorAll('tbody tr');
+
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            if (text.includes(searchTerm)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    // Auto-dismiss alerts after 5 seconds
+    setTimeout(() => {
+        const alerts = document.querySelectorAll('.alert-dismissible');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                alert.classList.add('fade');
+                setTimeout(() => {
+                    alert.remove();
+                }, 500);
+            }, 4000);
+        });
+    }, 1000);
+</script>

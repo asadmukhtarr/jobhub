@@ -1,0 +1,602 @@
+<!-- views/terms.ejs -->
+
+<%- include('includes/header', { title: 'Privacy Policy - JobHub' , currentPage: 'privacy' }) %>
+    <style>
+        .terms-hero {
+            background: linear-gradient(135deg, #0b3d3f 0%, #1a5f5c 25%, #1e88a0 50%, #2c9ba8 75%, #3aa8c5 100%);
+            padding: 60px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terms-hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: floatTerms 8s ease-in-out infinite;
+        }
+
+        .terms-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -5%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            animation: floatTerms 6s ease-in-out infinite reverse;
+        }
+
+        @keyframes floatTerms {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(30px, -30px) rotate(10deg);
+            }
+        }
+
+        .terms-container {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            padding: 3rem;
+            margin-top: -40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .terms-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .terms-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .terms-section h3 {
+            color: #0b3d3f;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .terms-section h3 .section-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1e88a0, #2c9ba8);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 0.9rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .terms-section h4 {
+            color: #1a5f5c;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .terms-section p {
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .terms-section ul,
+        .terms-section ol {
+            color: #4a5568;
+            line-height: 1.8;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .terms-section ul li,
+        .terms-section ol li {
+            margin-bottom: 0.5rem;
+        }
+
+        .terms-section ul li::marker {
+            color: #1e88a0;
+        }
+
+        .terms-highlight {
+            background: #f0f7fa;
+            border-left: 4px solid #1e88a0;
+            padding: 1.5rem 2rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .terms-highlight h5 {
+            color: #0b3d3f;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .terms-highlight p {
+            margin-bottom: 0;
+        }
+
+        .terms-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        .terms-table th {
+            background: linear-gradient(135deg, #1e88a0, #2c9ba8);
+            color: white;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .terms-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .terms-table tr:hover td {
+            background: #f8f9fa;
+        }
+
+        .terms-acceptance {
+            background: linear-gradient(135deg, #e0f2f1, #b2dfdb);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .terms-acceptance h4 {
+            color: #0b3d3f;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .terms-acceptance p {
+            color: #2d3748;
+            margin-bottom: 0;
+        }
+
+        .terms-acceptance .btn-accept {
+            background: linear-gradient(135deg, #1e88a0, #2c9ba8);
+            border: none;
+            border-radius: 2rem;
+            padding: 12px 40px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .terms-acceptance .btn-accept:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(30, 136, 160, 0.4);
+            color: white;
+        }
+
+        .terms-toc {
+            background: #f8f9fa;
+            border-radius: 1rem;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .terms-toc h5 {
+            color: #0b3d3f;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .terms-toc ul {
+            columns: 2;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .terms-toc ul li {
+            padding: 0.25rem 0;
+        }
+
+        .terms-toc ul li a {
+            color: #1e88a0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .terms-toc ul li a:hover {
+            color: #0b3d3f;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .terms-container {
+                padding: 1.5rem;
+                margin-top: -20px;
+            }
+
+            .terms-toc ul {
+                columns: 1;
+            }
+
+            .terms-section h3 {
+                font-size: 1.25rem;
+            }
+
+            .terms-highlight {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .terms-container {
+                padding: 1rem;
+            }
+
+            .terms-section {
+                margin-bottom: 1.5rem;
+            }
+
+            .terms-highlight {
+                padding: 0.75rem;
+            }
+
+            .terms-acceptance {
+                padding: 1.25rem;
+            }
+        }
+    </style>
+
+    <!-- Terms Hero Section -->
+    <section class="terms-hero">
+        <div class="container text-center position-relative" style="z-index: 1;">
+            <i class="fa fa-file-text fa-4x mb-4" style="animation: fadeInUp 0.6s ease;"></i>
+            <h1 class="display-4 fw-bold text-white" style="animation: fadeInUp 0.6s ease 0.1s backwards;">
+                Terms and Conditions
+            </h1>
+            <p class="lead text-white-50" style="animation: fadeInUp 0.6s ease 0.2s backwards;">
+                Please read these terms carefully before using JobHub
+            </p>
+            <p class="text-white-50 small" style="animation: fadeInUp 0.6s ease 0.3s backwards;">
+                Last Updated: <span id="lastUpdated">
+                    <%= new Date().toLocaleDateString('en-US', { year: 'numeric' , month: 'long' , day: 'numeric' }) %>
+                </span>
+            </p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="terms-container">
+            <!-- Table of Contents -->
+            <div class="terms-toc">
+                <h5><i class="fa fa-list-ul text-primary me-2"></i>Table of Contents</h5>
+                <ul>
+                    <li><a href="#section-1">1. Acceptance of Terms</a></li>
+                    <li><a href="#section-2">2. User Accounts</a></li>
+                    <li><a href="#section-3">3. Job Posting and Applications</a></li>
+                    <li><a href="#section-4">4. User Content</a></li>
+                    <li><a href="#section-5">5. Privacy and Data Protection</a></li>
+                    <li><a href="#section-6">6. Intellectual Property</a></li>
+                    <li><a href="#section-7">7. Prohibited Activities</a></li>
+                    <li><a href="#section-8">8. Termination</a></li>
+                    <li><a href="#section-9">9. Disclaimer of Warranties</a></li>
+                    <li><a href="#section-10">10. Limitation of Liability</a></li>
+                    <li><a href="#section-11">11. Governing Law</a></li>
+                    <li><a href="#section-12">12. Changes to Terms</a></li>
+                    <li><a href="#section-13">13. Contact Information</a></li>
+                </ul>
+            </div>
+
+            <!-- Section 1 -->
+            <div id="section-1" class="terms-section">
+                <h3>
+                    <span class="section-number">1</span>
+                    Acceptance of Terms
+                </h3>
+                <p>
+                    By accessing and using JobHub ("the Platform"), you agree to be bound by these Terms and Conditions
+                    ("Terms"). If you do not agree to these Terms, please do not use the Platform. These Terms
+                    constitute
+                    a legally binding agreement between you and JobHub.
+                </p>
+                <div class="terms-highlight">
+                    <h5><i class="fa fa-info-circle text-primary me-2"></i>Key Point</h5>
+                    <p>
+                        By using JobHub, you confirm that you are at least 16 years old and have the legal capacity to
+                        enter into this agreement.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Section 2 -->
+            <div id="section-2" class="terms-section">
+                <h3>
+                    <span class="section-number">2</span>
+                    User Accounts
+                </h3>
+                <h4>2.1 Account Creation</h4>
+                <p>
+                    To access certain features of the Platform, you must create an account. You are responsible for
+                    maintaining the confidentiality of your account credentials and for all activities that occur
+                    under your account.
+                </p>
+                <h4>2.2 Account Types</h4>
+                <p>
+                    JobHub offers two types of accounts:
+                </p>
+                <ul>
+                    <li><strong>Job Seeker:</strong> For individuals looking for employment opportunities.</li>
+                    <li><strong>Employer:</strong> For companies and organizations posting job vacancies.</li>
+                </ul>
+                <h4>2.3 Account Security</h4>
+                <p>
+                    You agree to:
+                </p>
+                <ul>
+                    <li>Provide accurate and complete information when creating your account</li>
+                    <li>Update your information promptly when it changes</li>
+                    <li>Notify us immediately of any unauthorized use of your account</li>
+                    <li>Use a strong password and change it regularly</li>
+                </ul>
+            </div>
+
+            <!-- Section 3 -->
+            <div id="section-3" class="terms-section">
+                <h3>
+                    <span class="section-number">3</span>
+                    Job Posting and Applications
+                </h3>
+                <h4>3.1 Job Postings</h4>
+                <p>
+                    Employers may post job listings on the Platform. All job postings must be accurate, truthful,
+                    and comply with applicable laws. JobHub reserves the right to remove any job posting that
+                    violates these Terms or is otherwise inappropriate.
+                </p>
+                <h4>3.2 Job Applications</h4>
+                <p>
+                    Job seekers may apply to job postings through the Platform. By submitting an application,
+                    you agree that:
+                </p>
+                <ul>
+                    <li>All information provided is accurate and truthful</li>
+                    <li>You have the legal right to work in the location of the job</li>
+                    <li>You consent to your information being shared with the employer</li>
+                </ul>
+                <h4>3.3 No Guarantee</h4>
+                <p>
+                    JobHub does not guarantee that:
+                </p>
+                <ul>
+                    <li>You will find a job through the Platform</li>
+                    <li>You will find suitable candidates for your job postings</li>
+                    <li>Any job posting will result in employment</li>
+                </ul>
+            </div>
+
+            <!-- Section 4 -->
+            <div id="section-4" class="terms-section">
+                <h3>
+                    <span class="section-number">4</span>
+                    User Content
+                </h3>
+                <p>
+                    You retain ownership of any content you submit to the Platform, including resumes, cover letters,
+                    job postings, and profile information. By submitting content, you grant JobHub a non-exclusive,
+                    worldwide, royalty-free license to use, display, and distribute your content for the purpose of
+                    operating the Platform.
+                </p>
+                <div class="terms-highlight">
+                    <h5><i class="fa fa-gavel text-primary me-2"></i>Important</h5>
+                    <p>
+                        You are solely responsible for the content you post. JobHub is not liable for any content
+                        posted by users, including job postings and applications.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Section 5 -->
+            <div id="section-5" class="terms-section">
+                <h3>
+                    <span class="section-number">5</span>
+                    Privacy and Data Protection
+                </h3>
+                <p>
+                    Your privacy is important to us. Our Privacy Policy explains how we collect, use, and protect
+                    your personal information. By using the Platform, you consent to our data practices as described
+                    in our Privacy Policy.
+                </p>
+                <table class="terms-table">
+                    <thead>
+                        <tr>
+                            <th>Data Type</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Personal Information</td>
+                            <td>Account creation and verification</td>
+                        </tr>
+                        <tr>
+                            <td>Resume/CV</td>
+                            <td>Job applications and employer review</td>
+                        </tr>
+                        <tr>
+                            <td>Job Postings</td>
+                            <td>Displaying job opportunities to job seekers</td>
+                        </tr>
+                        <tr>
+                            <td>Usage Data</td>
+                            <td>Platform improvement and analytics</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Section 6 -->
+            <div id="section-6" class="terms-section">
+                <h3>
+                    <span class="section-number">6</span>
+                    Intellectual Property
+                </h3>
+                <p>
+                    All content on the Platform, including text, graphics, logos, icons, and software, is the property
+                    of JobHub or its licensors and is protected by copyright and other intellectual property laws.
+                    You may not reproduce, distribute, or create derivative works from any content on the Platform
+                    without our prior written consent.
+                </p>
+            </div>
+
+            <!-- Section 7 -->
+            <div id="section-7" class="terms-section">
+                <h3>
+                    <span class="section-number">7</span>
+                    Prohibited Activities
+                </h3>
+                <p>
+                    You agree not to engage in any of the following prohibited activities:
+                </p>
+                <ul>
+                    <li><strong>Fraud:</strong> Posting fraudulent job listings or submitting false applications</li>
+                    <li><strong>Harassment:</strong> Harassing, abusing, or threatening other users</li>
+                    <li><strong>Spam:</strong> Sending unsolicited messages or spam</li>
+                    <li><strong>Unlawful Content:</strong> Posting content that is illegal, defamatory, or
+                        discriminatory</li>
+                    <li><strong>Hacking:</strong> Attempting to gain unauthorized access to the Platform or user
+                        accounts</li>
+                    <li><strong>Scraping:</strong> Using automated tools to scrape data from the Platform</li>
+                </ul>
+            </div>
+
+            <!-- Section 8 -->
+            <div id="section-8" class="terms-section">
+                <h3>
+                    <span class="section-number">8</span>
+                    Termination
+                </h3>
+                <p>
+                    JobHub reserves the right to suspend or terminate your account at any time, with or without
+                    notice, for any violation of these Terms or for any other reason. Upon termination, you will
+                    lose access to your account and all associated data.
+                </p>
+            </div>
+
+            <!-- Section 9 -->
+            <div id="section-9" class="terms-section">
+                <h3>
+                    <span class="section-number">9</span>
+                    Disclaimer of Warranties
+                </h3>
+                <p>
+                    The Platform is provided "as is" and "as available" without any warranties of any kind. JobHub
+                    does not warrant that:
+                </p>
+                <ul>
+                    <li>The Platform will be uninterrupted or error-free</li>
+                    <li>Job listings are accurate or complete</li>
+                    <li>Any employment will result from using the Platform</li>
+                    <li>The Platform will meet your specific requirements</li>
+                </ul>
+            </div>
+
+            <!-- Section 10 -->
+            <div id="section-10" class="terms-section">
+                <h3>
+                    <span class="section-number">10</span>
+                    Limitation of Liability
+                </h3>
+                <p>
+                    To the maximum extent permitted by law, JobHub shall not be liable for any indirect, incidental,
+                    special, consequential, or punitive damages, including but not limited to lost profits, lost data,
+                    or loss of business opportunities, arising out of or in connection with your use of the Platform.
+                </p>
+                <div class="terms-highlight">
+                    <h5><i class="fa fa-exclamation-circle text-primary me-2"></i>Limitation</h5>
+                    <p>
+                        In no event shall JobHub's total liability exceed the amount paid by you, if any, for using
+                        the Platform.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Section 11 -->
+            <div id="section-11" class="terms-section">
+                <h3>
+                    <span class="section-number">11</span>
+                    Governing Law
+                </h3>
+                <p>
+                    These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in
+                    which JobHub operates, without regard to its conflict of law provisions. Any disputes arising
+                    under these Terms shall be resolved in the competent courts of that jurisdiction.
+                </p>
+            </div>
+
+            <!-- Section 12 -->
+            <div id="section-12" class="terms-section">
+                <h3>
+                    <span class="section-number">12</span>
+                    Changes to Terms
+                </h3>
+                <p>
+                    JobHub reserves the right to update or modify these Terms at any time without prior notice.
+                    We will notify you of any significant changes by posting the updated Terms on the Platform.
+                    Your continued use of the Platform after any changes constitutes your acceptance of the revised
+                    Terms.
+                </p>
+            </div>
+
+            <!-- Section 13 -->
+            <div id="section-13" class="terms-section">
+                <h3>
+                    <span class="section-number">13</span>
+                    Contact Information
+                </h3>
+                <p>
+                    If you have any questions, concerns, or feedback regarding these Terms, please contact us:
+                </p>
+                <ul>
+                    <li><i class="fa fa-envelope text-primary me-2"></i>Email: <a href="mailto:support@jobhub.com"
+                            class="text-decoration-none">support@jobhub.com</a></li>
+                    <li><i class="fa fa-phone text-primary me-2"></i>Phone: +1 (555) 123-4567</li>
+                    <li><i class="fa fa-map-marker text-primary me-2"></i>Address: 123 Job Street, Employment City, EC
+                        12345</li>
+                </ul>
+            </div>
+
+            <!-- Acceptance Section -->
+            <div class="terms-acceptance">
+                <i class="fa fa-check-circle fa-3x text-primary mb-3"></i>
+                <h4>I Accept the Terms and Conditions</h4>
+                <p>
+                    By continuing to use JobHub, you confirm that you have read, understood, and agree to be bound
+                    by these Terms and Conditions.
+                </p>
+                <a href="/" class="btn-accept">
+                    <i class="fa fa-arrow-right me-2"></i>I Accept & Continue
+                </a>
+            </div>
+        </div>
+    </div>
+    <%- include('includes/footer') %>

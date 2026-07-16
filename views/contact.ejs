@@ -1,0 +1,519 @@
+<%- include('includes/header', { title: 'JobHub - Contact Us' , currentPage: 'contact' }) %>
+
+    <style>
+        /* Contact Page Specific Styles */
+        .contact-hero {
+            background: linear-gradient(135deg, #0b3d3f 0%, #1a5f5c 25%, #1e88a0 50%, #2c9ba8 75%, #3aa8c5 100%);
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: floatContact 8s ease-in-out infinite;
+        }
+
+        .contact-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -5%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            animation: floatContact 6s ease-in-out infinite reverse;
+        }
+
+        @keyframes floatContact {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(30px, -30px) rotate(10deg);
+            }
+        }
+
+        .contact-info-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            height: 100%;
+            border: 1px solid rgba(30, 136, 160, 0.1);
+        }
+
+        .contact-info-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: #1e88a0;
+        }
+
+        .contact-icon {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #1e88a0, #3aa8c5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .contact-form {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #0b3d3f;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-label i {
+            color: #1e88a0;
+            margin-right: 0.5rem;
+        }
+
+        .form-control,
+        .form-select {
+            border: 1px solid #e0e0e0;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #1e88a0;
+            box-shadow: 0 0 0 0.2rem rgba(30, 136, 160, 0.1);
+            outline: none;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #1e88a0, #2c9ba8);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 12px 30px;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #2c9ba8, #3aa8c5);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 136, 160, 0.4);
+        }
+
+        .map-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question {
+            background: #f8f9fa;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: #e0f2f1;
+        }
+
+        .faq-question h6 {
+            margin: 0;
+            color: #0b3d3f;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 1rem 1.5rem;
+            max-height: 200px;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-icon {
+            transition: transform 0.3s ease;
+            color: #1e88a0;
+        }
+
+        .social-contact {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #1e88a0, #3aa8c5);
+            border-radius: 50%;
+            color: white;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+
+        .social-contact:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(30, 136, 160, 0.4);
+            color: white;
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, #e0f2f1, #b2dfdb);
+            border: none;
+            border-radius: 0.5rem;
+            color: #0b3d3f;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+
+    <!-- Contact Hero Section -->
+    <section class="contact-hero">
+        <div class="container text-center position-relative" style="z-index: 1;">
+            <i class="fa fa-envelope fa-4x mb-4" style="animation: fadeInUp 0.6s ease;"></i>
+            <h1 class="display-4 fw-bold" style="animation: fadeInUp 0.6s ease 0.1s backwards;">Contact Us</h1>
+            <p class="lead" style="animation: fadeInUp 0.6s ease 0.2s backwards;">We'd love to hear from you! Get in
+                touch with our team</p>
+        </div>
+    </section>
+
+    <div class="container mt-5">
+        <!-- Contact Info Cards -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="contact-info-card">
+                    <i class="fa fa-map-marker contact-icon"></i>
+                    <h4>Visit Us</h4>
+                    <p class="text-muted mb-0">123 Business Avenue<br>Suite 100, New York, NY 10001</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="contact-info-card">
+                    <i class="fa fa-phone contact-icon"></i>
+                    <h4>Call Us</h4>
+                    <p class="text-muted mb-0">+1 (555) 123-4567<br>+1 (555) 987-6543</p>
+                    <small class="text-muted">Mon-Fri, 9am-6pm EST</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="contact-info-card">
+                    <i class="fa fa-envelope contact-icon"></i>
+                    <h4>Email Us</h4>
+                    <p class="text-muted mb-0">support@jobhub.com<br>careers@jobhub.com</p>
+                    <small class="text-muted">24/7 Support Available</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-5">
+            <!-- Contact Form -->
+            <div class="col-lg-7">
+                <div class="contact-form">
+                    <h3 class="mb-4"><i class="fa fa-paper-plane" style="color: #1e88a0;"></i> Send Us a Message</h3>
+
+                    <!-- Success Message (hidden by default) -->
+                    <div id="successMessage" class="alert alert-success d-none fade-up">
+                        <i class="fa fa-check-circle"></i> Thank you for your message! We'll get back to you within 24
+                        hours.
+                    </div>
+
+                    <form id="contactForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label"><i class="fa fa-user"></i> Full Name *</label>
+                                    <input type="text" class="form-control" id="name" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label"><i class="fa fa-envelope"></i> Email Address *</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label"><i class="fa fa-phone"></i> Phone Number</label>
+                                    <input type="tel" class="form-control" id="phone">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label"><i class="fa fa-tag"></i> Subject *</label>
+                                    <select class="form-select" id="subject" required>
+                                        <option value="">Select a subject</option>
+                                        <option>General Inquiry</option>
+                                        <option>Job Seeker Support</option>
+                                        <option>Employer Partnership</option>
+                                        <option>Technical Support</option>
+                                        <option>Feedback & Suggestions</option>
+                                        <option>Report an Issue</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label"><i class="fa fa-comment"></i> Message *</label>
+                            <textarea class="form-control" id="message" rows="5"
+                                placeholder="Tell us how we can help you..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="newsletter">
+                                <label class="form-check-label" for="newsletter">
+                                    <i class="fa fa-newspaper-o"></i> Subscribe to our newsletter for job alerts
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <i class="fa fa-send"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Office Hours & Social Links -->
+            <div class="col-lg-5">
+                <!-- Office Hours -->
+                <div class="contact-info-card mb-4">
+                    <i class="fa fa-clock-o contact-icon"></i>
+                    <h4>Office Hours</h4>
+                    <div class="text-start mt-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span><i class="fa fa-calendar"></i> Monday - Friday</span>
+                            <span class="fw-bold">9:00 AM - 6:00 PM</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span><i class="fa fa-calendar"></i> Saturday</span>
+                            <span class="fw-bold">10:00 AM - 2:00 PM</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span><i class="fa fa-calendar"></i> Sunday</span>
+                            <span class="fw-bold">Closed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emergency Support -->
+                <div class="contact-info-card mb-4" style="background: linear-gradient(135deg, #e0f2f1, #b2dfdb);">
+                    <i class="fa fa-exclamation-triangle contact-icon"></i>
+                    <h4>Emergency Support</h4>
+                    <p class="mb-2">For urgent issues, please call our 24/7 helpline:</p>
+                    <h3 class="text-primary">+1 (555) 999-8888</h3>
+                    <small class="text-muted">Available 24 hours, 7 days a week</small>
+                </div>
+
+                <!-- Social Media -->
+                <div class="contact-info-card">
+                    <i class="fa fa-share-alt contact-icon"></i>
+                    <h4>Connect With Us</h4>
+                    <p class="text-muted">Follow us on social media for updates and job alerts</p>
+                    <div class="mt-3">
+                        <a href="#" class="social-contact"><i class="fa fa-facebook"></i></a>
+                        <a href="#" class="social-contact"><i class="fa fa-twitter"></i></a>
+                        <a href="#" class="social-contact"><i class="fa fa-linkedin"></i></a>
+                        <a href="#" class="social-contact"><i class="fa fa-instagram"></i></a>
+                        <a href="#" class="social-contact"><i class="fa fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Section -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="map-card">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1x3024.2219901290355!2d-74.00369368400567!3d40.71312937933185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a316bb7d2a3%3A0xb89d1fe6bc499443!2sDowntown%20Conference%20Center!5e0!3m2!1sen!2sus!4v1644262071399!5m2!1sen!2sus"
+                        width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="row mt-5">
+            <div class="col-12 text-center mb-4">
+                <h2><i class="fa fa-question-circle" style="color: #1e88a0;"></i> Frequently Asked Questions</h2>
+                <p class="text-muted">Find quick answers to common questions</p>
+            </div>
+            <div class="col-lg-8 mx-auto">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h6><i class="fa fa-comment" style="color: #1e88a0;"></i> How do I create an account?</h6>
+                        <i class="fa fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Click on the "Register" button in the top right corner. Fill in your details including name,
+                            email, and password. You'll receive a confirmation email to verify your account.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h6><i class="fa fa-search" style="color: #1e88a0;"></i> How do I search for jobs?</h6>
+                        <i class="fa fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Use the search bar on our Jobs page to filter by title, location, or keywords. You can also
+                            use advanced filters like salary range, job type, and experience level.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h6><i class="fa fa-file-text" style="color: #1e88a0;"></i> How do I apply for a job?</h6>
+                        <i class="fa fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Once you find a job you're interested in, click the "Apply Now" button. Fill out the
+                            application form and upload your resume. Some positions may require additional documents.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h6><i class="fa fa-building" style="color: #1e88a0;"></i> How can employers post jobs?</h6>
+                        <i class="fa fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Employers can contact our partnership team via email at partnerships@jobhub.com or call our
+                            business line. We offer various packages for job posting and recruitment services.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h6><i class="fa fa-credit-card" style="color: #1e88a0;"></i> Is JobHub free for job seekers?
+                        </h6>
+                        <i class="fa fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! JobHub is completely free for job seekers. You can create an account, search jobs, and
+                            apply without any charges. We also offer premium features for advanced job matching.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                faqItem.classList.toggle('active');
+            });
+        });
+
+        // Form submission handler
+        const contactForm = document.getElementById('contactForm');
+        const successMessage = document.getElementById('successMessage');
+
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            // Basic validation
+            if (!name || !email || !subject || !message) {
+                alert('Please fill in all required fields (*)');
+                return;
+            }
+
+            // Show success message
+            successMessage.classList.remove('d-none');
+
+            // Reset form
+            contactForm.reset();
+
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMessage.classList.add('d-none');
+            }, 5000);
+
+            // Scroll to success message
+            successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        // Phone number formatting
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 10) value = value.slice(0, 10);
+            if (value.length >= 6) {
+                value = value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+            } else if (value.length >= 3) {
+                value = value.replace(/(\d{3})(\d+)/, '($1) $2');
+            }
+            e.target.value = value;
+        });
+    </script>
+
+    <%- include('includes/footer') %>

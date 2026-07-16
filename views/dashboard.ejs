@@ -1,0 +1,468 @@
+<div class="dashboard-container">
+    <div class="row g-0">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            <div class="sidebar bg-dark text-white vh-100 p-3">
+                <!-- Profile Section -->
+                <div class="text-center mb-4 pb-3 border-bottom border-secondary">
+                    <div class="profile-image mb-3">
+                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center mx-auto"
+                            style="width: 80px; height: 80px;">
+                            <i class="fa fa-user fa-3x text-white"></i>
+                        </div>
+                    </div>
+                    <h6 class="mb-1">
+                        <%= userName || 'John Doe' %>
+                    </h6>
+                    <small class="text-muted">
+                        <%= userEmail || 'john@example.com' %>
+                    </small>
+                </div>
+
+                <!-- Navigation Menu -->
+                <nav class="nav flex-column">
+                    <a href="/dashboard" class="nav-link text-white active mb-2">
+                        <i class="fa fa-dashboard me-2"></i> Dashboard
+                    </a>
+                    <a href="/jobs/create" class="nav-link text-white-50 mb-2">
+                        <i class="fa fa-plus-circle me-2"></i> Post New Job
+                    </a>
+                    <a href="/my-jobs" class="nav-link text-white-50 mb-2">
+                        <i class="fa fa-briefcase me-2"></i> My Jobs
+                    </a>
+                    <a href="/applications" class="nav-link text-white-50 mb-2">
+                        <i class="fa fa-file-text me-2"></i> Applications
+                        <span class="badge bg-danger float-end">3</span>
+                    </a>
+                    <a href="/shortlisted" class="nav-link text-white-50 mb-2">
+                        <i class="fa fa-star me-2"></i> Shortlisted
+                    </a>
+                    <a href="/messages" class="nav-link text-white-50 mb-2">
+                        <i class="fa fa-envelope me-2"></i> Messages
+                        <span class="badge bg-info float-end">5</span>
+                    </a>
+                    <a href="/profile" class="nav-link text-white-50 mb-2">
+                        <i class="fa fa-user-circle me-2"></i> Profile Settings
+                    </a>
+                    <a href="/change-password" class="nav-link text-white-50 mb-2">
+                        <i class="fa fa-key me-2"></i> Change Password
+                    </a>
+                    <hr class="bg-secondary">
+                    <a href="/logout" class="nav-link text-danger mb-2">
+                        <i class="fa fa-sign-out me-2"></i> Logout
+                    </a>
+                </nav>
+
+                <!-- Stats Section -->
+                <div class="mt-auto pt-4 border-top border-secondary">
+                    <div class="small text-muted mb-2">Quick Stats</div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Total Jobs:</span>
+                        <strong class="text-white">12</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Active Jobs:</span>
+                        <strong class="text-success">8</strong>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Total Views:</span>
+                        <strong class="text-info">1,234</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9 col-lg-10">
+            <div class="main-content p-4">
+                <!-- Welcome Banner -->
+                <div class="welcome-banner bg-gradient-primary text-white p-4 rounded mb-4 shadow">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="mb-2">Welcome back, <%= userName || 'John' %>! 👋</h2>
+                            <p class="mb-0">Here's what's happening with your job posts today.</p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <a href="/jobs/create" class="btn btn-light btn-lg">
+                                <i class="fa fa-plus"></i> Post New Job
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <div class="card shadow-sm border-left-primary h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-muted mb-1">Total Jobs</h6>
+                                        <h2 class="mb-0">12</h2>
+                                    </div>
+                                    <div class="stats-icon bg-primary">
+                                        <i class="fa fa-briefcase"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card shadow-sm border-left-success h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-muted mb-1">Active Jobs</h6>
+                                        <h2 class="mb-0">8</h2>
+                                    </div>
+                                    <div class="stats-icon bg-success">
+                                        <i class="fa fa-check-circle"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card shadow-sm border-left-info h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-muted mb-1">Total Views</h6>
+                                        <h2 class="mb-0">1,234</h2>
+                                    </div>
+                                    <div class="stats-icon bg-info">
+                                        <i class="fa fa-eye"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card shadow-sm border-left-warning h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-muted mb-1">Applications</h6>
+                                        <h2 class="mb-0">45</h2>
+                                    </div>
+                                    <div class="stats-icon bg-warning">
+                                        <i class="fa fa-users"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Jobs Section -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="fa fa-clock-o me-2"></i>Recent Job Posts</h5>
+                            <a href="/my-jobs" class="btn btn-sm btn-link">View All <i
+                                    class="fa fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Job Title</th>
+                                        <th>Type</th>
+                                        <th>Location</th>
+                                        <th>Posted Date</th>
+                                        <th>Status</th>
+                                        <th>Views</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Senior Software Engineer</strong></td>
+                                        <td><span class="badge bg-info">Full-time</span></td>
+                                        <td>New York, NY</td>
+                                        <td>2024-01-15</td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                        <td>234</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Frontend Developer</strong></td>
+                                        <td><span class="badge bg-info">Full-time</span></td>
+                                        <td>Remote</td>
+                                        <td>2024-01-10</td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                        <td>189</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>UI/UX Designer</strong></td>
+                                        <td><span class="badge bg-warning">Contract</span></td>
+                                        <td>San Francisco, CA</td>
+                                        <td>2024-01-05</td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                        <td>156</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>DevOps Engineer</strong></td>
+                                        <td><span class="badge bg-info">Full-time</span></td>
+                                        <td>Austin, TX</td>
+                                        <td>2024-01-01</td>
+                                        <td><span class="badge bg-secondary">Draft</span></td>
+                                        <td>0</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Marketing Specialist</strong></td>
+                                        <td><span class="badge bg-info">Part-time</span></td>
+                                        <td>Chicago, IL</td>
+                                        <td>2023-12-28</td>
+                                        <td><span class="badge bg-danger">Closed</span></td>
+                                        <td>78</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Applications -->
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="fa fa-file-text-o me-2"></i>Recent Applications</h5>
+                            <a href="/applications" class="btn btn-sm btn-link">View All <i
+                                    class="fa fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Applicant</th>
+                                        <th>Job Title</th>
+                                        <th>Applied Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Michael Brown</td>
+                                        <td>Senior Software Engineer</td>
+                                        <td>2024-01-14</td>
+                                        <td><span class="badge bg-warning">Pending</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-info">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sarah Johnson</td>
+                                        <td>Frontend Developer</td>
+                                        <td>2024-01-12</td>
+                                        <td><span class="badge bg-success">Shortlisted</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-info">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>David Wilson</td>
+                                        <td>Senior Software Engineer</td>
+                                        <td>2024-01-10</td>
+                                        <td><span class="badge bg-success">Shortlisted</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-info">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Emily Davis</td>
+                                        <td>UI/UX Designer</td>
+                                        <td>2024-01-08</td>
+                                        <td><span class="badge bg-warning">Pending</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-info">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>James Wilson</td>
+                                        <td>DevOps Engineer</td>
+                                        <td>2024-01-05</td>
+                                        <td><span class="badge bg-danger">Rejected</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-info">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom Styles */
+    .dashboard-container {
+        background-color: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sidebar::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .sidebar::-webkit-scrollbar-track {
+        background: #2c3e50;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+        background: #3498db;
+    }
+
+    .nav-link {
+        transition: all 0.3s ease;
+        border-radius: 5px;
+    }
+
+    .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white !important;
+        padding-left: 15px;
+    }
+
+    .nav-link.active {
+        background-color: #3498db;
+        color: white !important;
+    }
+
+    .stats-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+    }
+
+    .border-left-primary {
+        border-left: 4px solid #3498db;
+    }
+
+    .border-left-success {
+        border-left: 4px solid #28a745;
+    }
+
+    .border-left-info {
+        border-left: 4px solid #17a2b8;
+    }
+
+    .border-left-warning {
+        border-left: 4px solid #ffc107;
+    }
+
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .welcome-banner {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .card {
+        border: none;
+        transition: transform 0.2s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .btn-light {
+        background: white;
+        color: #667eea;
+    }
+
+    .btn-light:hover {
+        background: #f8f9fa;
+        transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+        .sidebar {
+            position: fixed;
+            left: -100%;
+            transition: left 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar.show {
+            left: 0;
+        }
+
+        .main-content {
+            margin-left: 0 !important;
+        }
+    }
+</style>

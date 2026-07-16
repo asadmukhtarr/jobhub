@@ -1,0 +1,455 @@
+<%- include('includes/header', { title: 'JobHub - Login' , currentPage: 'login' }) %>
+
+    <style>
+        /* Login Page Specific Styles */
+        .login-hero {
+            background: linear-gradient(135deg, #0b3d3f 0%, #1a5f5c 25%, #1e88a0 50%, #2c9ba8 75%, #3aa8c5 100%);
+            padding: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: floatLogin 8s ease-in-out infinite;
+        }
+
+        .login-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -5%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            animation: floatLogin 6s ease-in-out infinite reverse;
+        }
+
+        @keyframes floatLogin {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(30px, -30px) rotate(10deg);
+            }
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .login-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, #1e88a0, #3aa8c5);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .login-body {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #0b3d3f;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-label i {
+            color: #1e88a0;
+            margin-right: 0.5rem;
+        }
+
+        .input-group-custom {
+            position: relative;
+        }
+
+        .input-group-custom .form-control {
+            border: 1px solid #e0e0e0;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-group-custom .form-control:focus {
+            border-color: #1e88a0;
+            box-shadow: 0 0 0 0.2rem rgba(30, 136, 160, 0.1);
+            outline: none;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s ease;
+        }
+
+        .toggle-password:hover {
+            color: #1e88a0;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #1e88a0, #2c9ba8);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 12px;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(135deg, #2c9ba8, #3aa8c5);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 136, 160, 0.4);
+        }
+
+        .btn-social {
+            border: 1px solid #e0e0e0;
+            border-radius: 0.5rem;
+            padding: 10px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .btn-social:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-google {
+            color: #db4437;
+        }
+
+        .btn-facebook {
+            color: #4267b2;
+        }
+
+        .btn-linkedin {
+            color: #0077b5;
+        }
+
+        .forgot-password {
+            color: #1e88a0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: #0b3d3f;
+            text-decoration: underline;
+        }
+
+        .register-link {
+            color: #1e88a0;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .register-link:hover {
+            color: #0b3d3f;
+            text-decoration: underline;
+        }
+
+        .alert-error {
+            background: #fee;
+            border-left: 4px solid #dc3545;
+            color: #dc3545;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background: #e0f2f1;
+            border-left: 4px solid #1e88a0;
+            color: #0b3d3f;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .feature-icon-small {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #e0f2f1, #b2dfdb);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: #1e88a0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    </style>
+
+    <!-- Login Hero Section -->
+    <section class="login-hero">
+        <div class="container text-center position-relative" style="z-index: 1;">
+            <i class="fa fa-sign-in fa-4x mb-4" style="animation: fadeInUp 0.6s ease;"></i>
+            <h1 class="display-4 fw-bold" style="animation: fadeInUp 0.6s ease 0.1s backwards;">Welcome Back!</h1>
+            <p class="lead" style="animation: fadeInUp 0.6s ease 0.2s backwards;">Login to access your JobHub account
+            </p>
+        </div>
+    </section>
+
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="row g-0">
+                    <!-- Login Form Side -->
+                    <div class="col-md-6">
+                        <div class="login-card" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">
+                            <div class="login-header">
+                                <i class="fa fa-lock fa-2x mb-2"></i>
+                                <h3 class="mb-0">Sign In</h3>
+                                <p class="mb-0 opacity-75">Enter your credentials</p>
+                            </div>
+                            <div class="login-body">
+                                <!-- Demo Alert -->
+                                <div id="demoAlert" class="alert-info"
+                                    style="background: #e3f2fd; padding: 0.75rem; border-radius: 0.5rem; margin-bottom: 1rem; border-left: 4px solid #1e88a0;">
+                                    <i class="fa fa-info-circle"></i> <strong>Demo Credentials:</strong><br>
+                                    Email: demo@jobhub.com<br>
+                                    Password: demo123
+                                </div>
+
+                                <!-- Error Message (hidden by default) -->
+                                <div id="errorMessage" class="alert-error d-none">
+                                    <i class="fa fa-exclamation-triangle"></i> Invalid email or password. Please try
+                                    again.
+                                </div>
+
+                                <!-- Success Message (hidden by default) -->
+                                <div id="successMessage" class="alert-success d-none">
+                                    <i class="fa fa-check-circle"></i> Login successful! Redirecting...
+                                </div>
+
+                                <form id="loginForm" action="/login" method="post">
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fa fa-envelope"></i> Email Address</label>
+                                        <div class="input-group-custom">
+                                            <input type="email" class="form-control" name="email" id="email"
+                                                placeholder="Enter your email" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fa fa-lock"></i> Password</label>
+                                        <div class="input-group-custom">
+                                            <input type="password" class="form-control" name="password" id="password"
+                                                placeholder="Enter your password" required>
+                                            <span class="toggle-password" onclick="togglePassword()">
+                                                <i class="fa fa-eye" id="toggleIcon"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group remember-me">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="rememberMe">
+                                            <label class="form-check-label" for="rememberMe">
+                                                <i class="fa fa-check-square-o"></i> Remember me
+                                            </label>
+                                        </div>
+                                        <a href="#" class="forgot-password" data-bs-toggle="modal"
+                                            data-bs-target="#forgotModal">
+                                            <i class="fa fa-question-circle"></i> Forgot Password?
+                                        </a>
+                                    </div>
+
+                                    <button type="submit" class="btn-login mb-3">
+                                        <i class="fa fa-sign-in"></i> Login
+                                    </button>
+
+                                    <hr class="my-4">
+
+                                    <div class="text-center">
+                                        <p class="mb-0">Don't have an account? <a href="/register"
+                                                class="register-link"><i class="fa fa-user-plus"></i> Create one
+                                                now!</a></p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Features Side -->
+                    <div class="col-md-6"
+                        style="background: linear-gradient(135deg, #0b3d3f, #1e88a0); border-radius: 1rem; border-top-left-radius: 0px; border-bottom-left-radius: 0px; padding: 2rem; color: white;">
+                        <div class="h-100 d-flex flex-column justify-content-center">
+                            <i class="fa fa-graduation-cap fa-3x mb-3"></i>
+                            <h3 class="mb-4">Benefits of Joining JobHub</h3>
+
+                            <div class="feature-item">
+                                <div class="feature-icon-small"
+                                    style="background: rgba(255,255,255,0.2); color: white;">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                                <div>
+                                    <strong>Access to 5000+ jobs</strong>
+                                    <p class="small mb-0 opacity-75">Browse thousands of opportunities</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-item">
+                                <div class="feature-icon-small"
+                                    style="background: rgba(255,255,255,0.2); color: white;">
+                                    <i class="fa fa-bell"></i>
+                                </div>
+                                <div>
+                                    <strong>Job Alerts</strong>
+                                    <p class="small mb-0 opacity-75">Get notified about matching jobs</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-item">
+                                <div class="feature-icon-small"
+                                    style="background: rgba(255,255,255,0.2); color: white;">
+                                    <i class="fa fa-file-text"></i>
+                                </div>
+                                <div>
+                                    <strong>Save Job Applications</strong>
+                                    <p class="small mb-0 opacity-75">Track your application history</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-item">
+                                <div class="feature-icon-small"
+                                    style="background: rgba(255,255,255,0.2); color: white;">
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <div>
+                                    <strong>Personalized Recommendations</strong>
+                                    <p class="small mb-0 opacity-75">AI-powered job matching</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-item">
+                                <div class="feature-icon-small"
+                                    style="background: rgba(255,255,255,0.2); color: white;">
+                                    <i class="fa fa-headphones"></i>
+                                </div>
+                                <div>
+                                    <strong>24/7 Support</strong>
+                                    <p class="small mb-0 opacity-75">Dedicated customer service</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 pt-3">
+                                <div class="d-flex">
+                                    <i class="fa fa-quote-left fa-2x opacity-50 me-2"></i>
+                                    <p class="small fst-italic mb-0">"JobHub helped me find my dream job in just 2
+                                        weeks!"</p>
+                                </div>
+                                <div class="mt-2">
+                                    <i class="fa fa-user-circle"></i>
+                                    <small> - Sarah Johnson, Software Engineer</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #1e88a0, #3aa8c5); color: white;">
+                    <h5 class="modal-title"><i class="fa fa-envelope"></i> Reset Password</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Enter your email address and we'll send you a link to reset your password.</p>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="resetEmail" placeholder="your@email.com">
+                    </div>
+                    <div id="resetMessage" class="mt-2"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="sendResetLink()"
+                        style="background: linear-gradient(135deg, #1e88a0, #3aa8c5); border: none;">Send Reset
+                        Link</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.className = 'fa fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.className = 'fa fa-eye';
+            }
+        }
+    </script>
+
+    <%- include('includes/footer') %>

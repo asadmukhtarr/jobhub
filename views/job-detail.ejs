@@ -1,0 +1,548 @@
+<!-- views/job-detail.ejs -->
+<%- include('includes/header', { title: title, currentPage: 'jobs' }) %>
+
+    <style>
+        /* Job Detail Styles */
+        .job-detail-hero {
+            background: linear-gradient(135deg, #0b3d3f 0%, #1a5f5c 25%, #1e88a0 50%, #2c9ba8 75%, #3aa8c5 100%);
+            padding: 40px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .job-detail-hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-20px, -20px);
+            }
+        }
+
+        .breadcrumb-custom {
+            background: transparent;
+            padding: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb-custom .breadcrumb-item a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb-custom .breadcrumb-item a:hover {
+            color: #fff;
+        }
+
+        .breadcrumb-custom .breadcrumb-item.active {
+            color: #fff;
+        }
+
+        .breadcrumb-custom .breadcrumb-item+.breadcrumb-item::before {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .job-title-large {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .job-meta {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+        }
+
+        .job-meta span {
+            margin-right: 1.5rem;
+        }
+
+        .job-meta i {
+            margin-right: 0.3rem;
+        }
+
+        .job-badge-lg {
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .badge-remote {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .detail-card {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .detail-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .detail-card .card-header {
+            background: transparent;
+            border-bottom: 2px solid #e8f5e9;
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            color: #0b3d3f;
+        }
+
+        .detail-card .card-header i {
+            color: #1e88a0;
+            margin-right: 0.5rem;
+        }
+
+        .detail-card .card-body {
+            padding: 1.5rem;
+        }
+
+        .skill-tag-lg {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: linear-gradient(135deg, #e0f2f1, #b2dfdb);
+            color: #0b3d3f;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            margin: 0.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag-lg:hover {
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(30, 136, 160, 0.2);
+        }
+
+        .company-logo-lg {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #1e88a0, #2c9ba8);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #fff;
+        }
+
+        .btn-apply-lg {
+            background: linear-gradient(135deg, #1e88a0, #2c9ba8);
+            border: none;
+            border-radius: 0.75rem;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-apply-lg:hover {
+            background: linear-gradient(135deg, #2c9ba8, #3aa8c5);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(30, 136, 160, 0.4);
+            color: white;
+        }
+
+        .btn-save-job {
+            background: transparent;
+            border: 2px solid #1e88a0;
+            color: #1e88a0;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-save-job:hover {
+            background: #1e88a0;
+            color: #fff;
+        }
+
+        .similar-job-card {
+            border: 1px solid #e9ecef;
+            border-radius: 1rem;
+            padding: 1.25rem;
+            transition: all 0.3s ease;
+            height: 100%;
+            background: white;
+        }
+
+        .similar-job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: #1e88a0;
+        }
+
+        .similar-job-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0b3d3f;
+            margin-bottom: 0.3rem;
+        }
+
+        .similar-job-title a {
+            color: #0b3d3f;
+            text-decoration: none;
+        }
+
+        .similar-job-title a:hover {
+            color: #1e88a0;
+        }
+
+        .similar-job-meta {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .similar-job-meta div {
+            margin-bottom: 0.2rem;
+        }
+
+        .apply-sidebar {
+            position: sticky;
+            top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .job-title-large {
+                font-size: 1.8rem;
+            }
+
+            .job-meta span {
+                display: block;
+                margin-bottom: 0.3rem;
+            }
+
+            .btn-apply-lg {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+
+            .company-logo-lg {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+        }
+    </style>
+
+    <!-- Job Detail Hero -->
+    <section class="job-detail-hero">
+        <div class="container position-relative" style="z-index: 1;">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-custom">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/jobs">Jobs</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <%= job.title %>
+                    </li>
+                </ol>
+            </nav>
+
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="company-logo-lg">
+                            <i class="fa fa-building"></i>
+                        </div>
+                        <div>
+                            <h1 class="job-title-large">
+                                <%= job.title %>
+                            </h1>
+                            <div class="job-meta">
+                                <span><i class="fa fa-building"></i>
+                                    <%= job.company || 'Company Name' %>
+                                </span>
+                                <span><i class="fa fa-map-marker"></i>
+                                    <%= job.location || 'Remote' %>
+                                </span>
+                                <span><i class="fa fa-calendar"></i> Posted <%= job.createdAt ? new
+                                        Date(job.createdAt).toLocaleDateString('en-US', { year: 'numeric' ,
+                                        month: 'long' , day: 'numeric' }) : 'Recently' %></span>
+                            </div>
+                            <div class="mt-2">
+                                <span class="job-badge-lg badge-remote">
+                                    <i
+                                        class="fa fa-<%= job.type === 'Remote' ? 'wifi' : job.type === 'Hybrid' ? 'exchange' : 'building-o' %>"></i>
+                                    <%= job.type || 'Full-time' %>
+                                </span>
+                                <span class="job-badge-lg badge-remote ms-2">
+                                    <i class="fa fa-briefcase"></i>
+                                    <%= job.experience || 'Any Level' %>
+                                </span>
+                                <% if (job.salary) { %>
+                                    <span class="job-badge-lg badge-remote ms-2">
+                                        <i class="fa fa-usd"></i>
+                                        <%= job.salary %>
+                                    </span>
+                                    <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                    <a href="/apply?jobId=<%= job._id %>" class="btn btn-apply-lg">
+                        <i class="fa fa-send me-2"></i> Apply Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container py-4">
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <!-- Job Description -->
+                <div class="card detail-card">
+                    <div class="card-header">
+                        <i class="fa fa-file-text"></i> Job Description
+                    </div>
+                    <div class="card-body">
+                        <p style="white-space: pre-line;">
+                            <%= job.description || 'No description provided.' %>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Requirements -->
+                <div class="card detail-card">
+                    <div class="card-header">
+                        <i class="fa fa-check-circle"></i> Requirements
+                    </div>
+                    <div class="card-body">
+                        <% if (job.requirements && job.requirements.length> 0) { %>
+                            <ul class="mb-0">
+                                <% if (typeof job.requirements==='string' ) { %>
+                                    <% const reqArray=job.requirements.split('\n').filter(r=> r.trim()); %>
+                                        <% reqArray.forEach(req=> { %>
+                                            <li class="mb-2">
+                                                <%= req.replace(/^[•\-*\d+.]\s*/, '' ) %>
+                                            </li>
+                                            <% }) %>
+                                                <% } else { %>
+                                                    <% job.requirements.forEach(req=> { %>
+                                                        <li class="mb-2">
+                                                            <%= req %>
+                                                        </li>
+                                                        <% }) %>
+                                                            <% } %>
+                            </ul>
+                            <% } else { %>
+                                <p class="text-muted mb-0">No specific requirements listed.</p>
+                                <% } %>
+                    </div>
+                </div>
+
+                <!-- Benefits -->
+                <% if (job.benefits && (job.benefits.length> 0 || (typeof job.benefits === 'string' &&
+                    job.benefits.trim()))) { %>
+                    <div class="card detail-card">
+                        <div class="card-header">
+                            <i class="fa fa-gift"></i> Benefits & Perks
+                        </div>
+                        <div class="card-body">
+                            <% if (typeof job.benefits==='string' ) { %>
+                                <ul class="mb-0">
+                                    <% const benArray=job.benefits.split('\n').filter(b=> b.trim()); %>
+                                        <% benArray.forEach(ben=> { %>
+                                            <li class="mb-2">
+                                                <%= ben.replace(/^[•\-*\d+.]\s*/, '' ) %>
+                                            </li>
+                                            <% }) %>
+                                </ul>
+                                <% } else { %>
+                                    <ul class="mb-0">
+                                        <% job.benefits.forEach(ben=> { %>
+                                            <li class="mb-2">
+                                                <%= ben %>
+                                            </li>
+                                            <% }) %>
+                                    </ul>
+                                    <% } %>
+                        </div>
+                    </div>
+                    <% } %>
+
+                        <!-- Skills -->
+                        <div class="card detail-card">
+                            <div class="card-header">
+                                <i class="fa fa-code"></i> Required Skills
+                            </div>
+                            <div class="card-body">
+                                <% if (job.skills && job.skills.length> 0) { %>
+                                    <div class="d-flex flex-wrap">
+                                        <% if (typeof job.skills==='string' ) { %>
+                                            <% const skillsArray=job.skills.split(',').map(s=> s.trim()).filter(s => s);
+                                                %>
+                                                <% skillsArray.forEach(skill=> { %>
+                                                    <span class="skill-tag-lg"><i class="fa fa-tag me-1"></i>
+                                                        <%= skill %>
+                                                    </span>
+                                                    <% }) %>
+                                                        <% } else { %>
+                                                            <% job.skills.forEach(skill=> { %>
+                                                                <span class="skill-tag-lg"><i
+                                                                        class="fa fa-tag me-1"></i>
+                                                                    <%= skill %>
+                                                                </span>
+                                                                <% }) %>
+                                                                    <% } %>
+                                    </div>
+                                    <% } else { %>
+                                        <p class="text-muted mb-0">No skills listed.</p>
+                                        <% } %>
+                            </div>
+                        </div>
+            </div>
+
+            <!-- Sidebar -->
+            <!-- In the hero section - replace the apply button -->
+            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                <% if (isLoggedIn) { %>
+                    <% if (hasApplied) { %>
+                        <!-- Already Applied -->
+                        <div class="text-center">
+                            <div class="badge bg-success p-3 fs-6 mb-2" style="border-radius: 0.75rem; width: 100%;">
+                                <i class="fa fa-check-circle me-2"></i>
+                                Already Applied
+                            </div>
+                            <% if (applicationStatus) { %>
+                                <small class="text-white-50 d-block">
+                                    Status: <span class="fw-bold">
+                                        <%= applicationStatus.charAt(0).toUpperCase() + applicationStatus.slice(1) %>
+                                    </span>
+                                </small>
+                                <% } %>
+                                    <a href="/my-jobs" class="btn btn-outline-light btn-sm mt-2">
+                                        <i class="fa fa-eye me-1"></i> View My Applications
+                                    </a>
+                        </div>
+                        <% } else { %>
+                            <!-- Apply Button -->
+                            <a href="/apply?jobId=<%= job._id %>" class="btn btn-apply-lg">
+                                <i class="fa fa-send me-2"></i> Apply Now
+                            </a>
+                            <% } %>
+                                <% } else { %>
+                                    <!-- Not Logged In -->
+                                    <a href="/login?returnTo=/job/<%= job._id %>" class="btn btn-apply-lg">
+                                        <i class="fa fa-sign-in me-2"></i> Login to Apply
+                                    </a>
+                                    <small class="text-white-50 d-block mt-2">
+                                        <i class="fa fa-info-circle me-1"></i> Please login to apply for this position
+                                    </small>
+                                    <% } %>
+            </div>
+
+            <!-- In the sidebar - replace the Apply Card -->
+            <div class="card detail-card">
+                <div class="card-body p-4">
+                    <h5 class="mb-3"><i class="fa fa-send text-primary"></i>
+                        <% if (hasApplied) { %>
+                            Application Status
+                            <% } else { %>
+                                Quick Apply
+                                <% } %>
+                    </h5>
+
+                    <% if (isLoggedIn) { %>
+                        <% if (hasApplied) { %>
+                            <!-- Already Applied Status -->
+                            <div class="text-center">
+                                <div class="alert alert-success mb-3">
+                                    <i class="fa fa-check-circle fa-2x d-block mb-2"></i>
+                                    <strong>You have already applied!</strong>
+                                    <p class="mb-0 small">
+                                        Status: <span class="fw-bold text-uppercase">
+                                            <%= applicationStatus || 'Pending' %>
+                                        </span>
+                                    </p>
+                                </div>
+                                <a href="/my-jobs" class="btn btn-outline-primary w-100">
+                                    <i class="fa fa-eye me-2"></i> View My Applications
+                                </a>
+                            </div>
+                            <% } else { %>
+                                <!-- Apply Button -->
+                                <a href="/apply?jobId=<%= job._id %>" class="btn btn-apply-lg">
+                                    <i class="fa fa-send me-2"></i> Apply Now
+                                </a>
+                                <button class="btn btn-save-job mt-2" onclick="saveJob('<%= job._id %>')">
+                                    <i class="fa fa-heart-o me-2"></i> Save Job
+                                </button>
+                                <% } %>
+                                    <% } else { %>
+                                        <!-- Not Logged In -->
+                                        <a href="/login?returnTo=/job/<%= job._id %>" class="btn btn-primary w-100">
+                                            <i class="fa fa-sign-in me-2"></i> Login to Apply
+                                        </a>
+                                        <small class="text-muted d-block mt-2 text-center">
+                                            <i class="fa fa-info-circle me-1"></i> Please login to apply
+                                        </small>
+                                        <% } %>
+                </div>
+            </div>
+        </div>
+
+        <!-- Similar Jobs -->
+        <% if (similarJobs && similarJobs.length> 0) { %>
+            <div class="mt-5">
+                <h4 class="mb-4"><i class="fa fa-suitcase"></i> Similar Jobs You Might Like</h4>
+                <div class="row">
+                    <% similarJobs.forEach(similarJob=> { %>
+                        <div class="col-md-6 col-lg-3 mb-4">
+                            <div class="similar-job-card">
+                                <h6 class="similar-job-title">
+                                    <a href="/job/<%= similarJob._id %>">
+                                        <%= similarJob.title %>
+                                    </a>
+                                </h6>
+                                <div class="similar-job-meta">
+                                    <div><i class="fa fa-building"></i>
+                                        <%= similarJob.company || 'Company' %>
+                                    </div>
+                                    <div><i class="fa fa-map-marker"></i>
+                                        <%= similarJob.location || 'Remote' %>
+                                    </div>
+                                    <div><i class="fa fa-usd"></i>
+                                        <%= similarJob.salary || 'Negotiable' %>
+                                    </div>
+                                </div>
+                                <a href="/job/<%= similarJob._id %>" class="btn btn-outline-primary btn-sm w-100 mt-2">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+            <% } %>
+    </div>
+
+    <%- include('includes/footer') %>

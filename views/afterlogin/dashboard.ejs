@@ -1,0 +1,657 @@
+<!-- views/afterlogin/dashboard.ejs -->
+<div class="dashboard-wrapper">
+    <!-- Welcome Section -->
+    <div class="welcome-section mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <h2 class="mb-1 fw-bold">
+                    <i class="fa fa-dashboard text-primary me-2"></i>Dashboard
+                </h2>
+                <p class="text-muted mb-0">
+                    <i class="fa fa-user-circle me-1"></i>
+                    Welcome back, <strong>
+                        <%= userName %>
+                    </strong>! Here's your overview
+                </p>
+            </div>
+            <div>
+                <% if (userRole==='employer' ) { %>
+                    <a href="/creat-new-job" class="btn btn-primary">
+                        <i class="fa fa-plus me-2"></i>Post New Job
+                    </a>
+                    <% } else { %>
+                        <a href="/jobs" class="btn btn-primary">
+                            <i class="fa fa-search me-2"></i>Browse Jobs
+                        </a>
+                        <% } %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Message -->
+    <% if (error) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fa fa-exclamation-circle me-2"></i>
+            <%= error %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <% } %>
+
+            <!-- Statistics Cards -->
+            <div class="stats-grid mb-4">
+                <div class="row g-3">
+                    <% if (userRole==='employer' ) { %>
+                        <!-- Employer Stats -->
+                        <div class="col-xl-3 col-md-6">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-primary-soft">
+                                    <i class="fa fa-briefcase text-primary"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 class="mb-0 fw-bold">
+                                        <%= totalJobs || 0 %>
+                                    </h3>
+                                    <span class="text-muted">Total Jobs</span>
+                                    <small class="text-success d-block">
+                                        <i class="fa fa-arrow-up"></i>
+                                        <%= activeJobs || 0 %> active
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-info-soft">
+                                    <i class="fa fa-eye text-info"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 class="mb-0 fw-bold">
+                                        <%= totalViews || 0 %>
+                                    </h3>
+                                    <span class="text-muted">Total Views</span>
+                                    <small class="text-muted d-block">All time views</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-success-soft">
+                                    <i class="fa fa-users text-success"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 class="mb-0 fw-bold">
+                                        <%= totalApplications || 0 %>
+                                    </h3>
+                                    <span class="text-muted">Applications</span>
+                                    <small class="text-warning d-block">
+                                        <i class="fa fa-clock-o"></i>
+                                        <%= pendingApplications || 0 %> pending
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-warning-soft">
+                                    <i class="fa fa-star text-warning"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 class="mb-0 fw-bold">
+                                        <%= shortlistedApplications || 0 %>
+                                    </h3>
+                                    <span class="text-muted">Shortlisted</span>
+                                    <small class="text-success d-block">
+                                        <i class="fa fa-check-circle"></i>
+                                        <%= hiredCount || 0 %> hired
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <% } else { %>
+                            <!-- Job Seeker Stats -->
+                            <div class="col-xl-4 col-md-6">
+                                <div class="stat-card">
+                                    <div class="stat-icon bg-primary-soft">
+                                        <i class="fa fa-file-text text-primary"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <h3 class="mb-0 fw-bold">
+                                            <%= myApplicationsCount || 0 %>
+                                        </h3>
+                                        <span class="text-muted">My Applications</span>
+                                        <small class="text-muted d-block">Total applied</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-6">
+                                <div class="stat-card">
+                                    <div class="stat-icon bg-success-soft">
+                                        <i class="fa fa-star text-success"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <h3 class="mb-0 fw-bold text-success">
+                                            <%= shortlistedApplications || 0 %>
+                                        </h3>
+                                        <span class="text-muted">Shortlisted</span>
+                                        <small class="text-success d-block">
+                                            <i class="fa fa-check-circle"></i> Got shortlisted
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-6">
+                                <div class="stat-card">
+                                    <div class="stat-icon bg-warning-soft">
+                                        <i class="fa fa-clock-o text-warning"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <h3 class="mb-0 fw-bold text-warning">
+                                            <%= pendingApplications || 0 %>
+                                        </h3>
+                                        <span class="text-muted">Pending</span>
+                                        <small class="text-warning d-block">
+                                            <i class="fa fa-hourglass-half"></i> Awaiting response
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-grid mb-4">
+                <div class="row g-3">
+                    <div class="col-lg-8">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-white border-0 py-3">
+                                <h5 class="mb-0 fw-bold">
+                                    <i class="fa fa-bar-chart text-primary me-2"></i>Applications Overview
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <% if (monthlyData && monthlyData.length> 0 && monthlyData.some(d => d.count > 0)) { %>
+                                    <div style="height: 280px; position: relative;">
+                                        <canvas id="applicationsChart"></canvas>
+                                    </div>
+                                    <% } else { %>
+                                        <div class="text-center py-5">
+                                            <i class="fa fa-bar-chart fa-4x text-muted mb-3"></i>
+                                            <p class="text-muted mb-0">No applications data available yet</p>
+                                        </div>
+                                        <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-white border-0 py-3">
+                                <h5 class="mb-0 fw-bold">
+                                    <i class="fa fa-pie-chart text-primary me-2"></i>Application Status
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <% if (totalApplications> 0) { %>
+                                    <div style="height: 280px; position: relative;">
+                                        <canvas id="statusChart"></canvas>
+                                    </div>
+                                    <% } else { %>
+                                        <div class="text-center py-5">
+                                            <i class="fa fa-pie-chart fa-4x text-muted mb-3"></i>
+                                            <p class="text-muted mb-0">No data to display</p>
+                                        </div>
+                                        <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="recent-activity">
+                <div class="row g-3">
+                    <% if (userRole==='employer' ) { %>
+                        <!-- Employer Recent Jobs -->
+                        <div class="col-lg-6">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div
+                                    class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0 fw-bold">
+                                        <i class="fa fa-briefcase text-primary me-2"></i>Recent Jobs
+                                    </h5>
+                                    <a href="/my-jobs" class="btn btn-sm btn-outline-primary">
+                                        View All <i class="fa fa-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <% if (recentJobs && recentJobs.length> 0) { %>
+                                        <div class="list-group list-group-flush">
+                                            <% recentJobs.forEach(job=> { %>
+                                                <a href="/admin/job/<%= job._id %>"
+                                                    class="list-group-item list-group-item-action px-0">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <h6 class="mb-1 fw-semibold">
+                                                                <%= job.title %>
+                                                            </h6>
+                                                            <small class="text-muted">
+                                                                <i class="fa fa-calendar me-1"></i>
+                                                                <%= new Date(job.createdAt).toLocaleDateString('en-US',
+                                                                    { month: 'short' , day: 'numeric' }) %>
+                                                                    <span class="mx-1">•</span>
+                                                                    <i class="fa fa-eye me-1"></i>
+                                                                    <%= job.views || 0 %> views
+                                                            </small>
+                                                        </div>
+                                                        <span
+                                                            class="badge bg-<%= job.status === 'active' ? 'success' : 'secondary' %>">
+                                                            <%= job.status || 'Active' %>
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                                <% }) %>
+                                        </div>
+                                        <% } else { %>
+                                            <div class="text-center py-4">
+                                                <i class="fa fa-briefcase fa-3x text-muted mb-3"></i>
+                                                <p class="text-muted mb-2">No jobs posted yet</p>
+                                                <a href="/creat-new-job" class="btn btn-sm btn-primary">
+                                                    <i class="fa fa-plus me-1"></i>Post Your First Job
+                                                </a>
+                                            </div>
+                                            <% } %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Employer Recent Applications -->
+                        <div class="col-lg-6">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div
+                                    class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0 fw-bold">
+                                        <i class="fa fa-users text-primary me-2"></i>Recent Applications
+                                    </h5>
+                                    <a href="/applications" class="btn btn-sm btn-outline-primary">
+                                        View All <i class="fa fa-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <% if (recentApplications && recentApplications.length> 0) { %>
+                                        <div class="list-group list-group-flush">
+                                            <% recentApplications.forEach(app=> { %>
+                                                <div class="list-group-item px-0">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <h6 class="mb-1 fw-semibold">
+                                                                <%= app.fullName || app.userName || 'Applicant' %>
+                                                            </h6>
+                                                            <small class="text-muted">
+                                                                <i class="fa fa-briefcase me-1"></i>
+                                                                <%= app.jobTitle %>
+                                                                    <span class="mx-1">•</span>
+                                                                    <i class="fa fa-calendar me-1"></i>
+                                                                    <%= new
+                                                                        Date(app.appliedAt).toLocaleDateString('en-US',
+                                                                        { month: 'short' , day: 'numeric' }) %>
+                                                            </small>
+                                                        </div>
+                                                        <span
+                                                            class="badge bg-<%= app.status === 'pending' ? 'warning' : 
+                                                                        app.status === 'reviewed' ? 'info' : 
+                                                                        app.status === 'shortlisted' ? 'success' : 
+                                                                        app.status === 'rejected' ? 'danger' : 
+                                                                        app.status === 'hired' ? 'primary' : 'secondary' %>">
+                                                            <%= app.status ? app.status.charAt(0).toUpperCase() +
+                                                                app.status.slice(1) : 'Pending' %>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <% }) %>
+                                        </div>
+                                        <% } else { %>
+                                            <div class="text-center py-4">
+                                                <i class="fa fa-users fa-3x text-muted mb-3"></i>
+                                                <p class="text-muted mb-0">No applications received yet</p>
+                                                <p class="text-muted small">Share your job posts to get applications</p>
+                                            </div>
+                                            <% } %>
+                                </div>
+                            </div>
+                        </div>
+                        <% } else { %>
+                            <!-- Job Seeker Recent Applications -->
+                            <div class="col-12">
+                                <div class="card border-0 shadow-sm">
+                                    <div
+                                        class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0 fw-bold">
+                                            <i class="fa fa-file-text text-primary me-2"></i>My Recent Applications
+                                        </h5>
+                                        <a href="/my-applications" class="btn btn-sm btn-outline-primary">
+                                            View All <i class="fa fa-arrow-right ms-1"></i>
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <% if (recentApplications && recentApplications.length> 0) { %>
+                                            <div class="list-group list-group-flush">
+                                                <% recentApplications.forEach(app=> { %>
+                                                    <div class="list-group-item px-0">
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <div>
+                                                                <h6 class="mb-1 fw-semibold">
+                                                                    <a href="/job/<%= app.jobId %>"
+                                                                        class="text-decoration-none text-dark">
+                                                                        <%= app.jobTitle || 'Unknown Job' %>
+                                                                    </a>
+                                                                </h6>
+                                                                <small class="text-muted">
+                                                                    <i class="fa fa-building me-1"></i>
+                                                                    <%= app.companyName || 'Company' %>
+                                                                        <span class="mx-1">•</span>
+                                                                        <i class="fa fa-calendar me-1"></i>
+                                                                        <%= new
+                                                                            Date(app.appliedAt).toLocaleDateString('en-US',
+                                                                            { month: 'short' , day: 'numeric' }) %>
+                                                                </small>
+                                                            </div>
+                                                            <span
+                                                                class="badge bg-<%= app.status === 'pending' ? 'warning' : 
+                                                                        app.status === 'reviewed' ? 'info' : 
+                                                                        app.status === 'shortlisted' ? 'success' : 
+                                                                        app.status === 'rejected' ? 'danger' : 
+                                                                        app.status === 'hired' ? 'primary' : 'secondary' %>">
+                                                                <%= app.status ? app.status.charAt(0).toUpperCase() +
+                                                                    app.status.slice(1) : 'Pending' %>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <% }) %>
+                                            </div>
+                                            <% } else { %>
+                                                <div class="text-center py-4">
+                                                    <i class="fa fa-file-text fa-3x text-muted mb-3"></i>
+                                                    <p class="text-muted mb-2">You haven't applied to any jobs yet</p>
+                                                    <a href="/jobs" class="btn btn-sm btn-primary">
+                                                        <i class="fa fa-search me-1"></i>Browse Jobs
+                                                    </a>
+                                                </div>
+                                                <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h6 class="fw-bold mb-3">
+                                <i class="fa fa-rocket text-primary me-2"></i>Quick Actions
+                            </h6>
+                            <div class="d-flex flex-wrap gap-2">
+                                <% if (userRole==='employer' ) { %>
+                                    <a href="/creat-new-job" class="btn btn-primary">
+                                        <i class="fa fa-plus me-1"></i>Post Job
+                                    </a>
+                                    <a href="/my-jobs" class="btn btn-outline-primary">
+                                        <i class="fa fa-briefcase me-1"></i>My Jobs
+                                    </a>
+                                    <a href="/applications" class="btn btn-outline-success">
+                                        <i class="fa fa-users me-1"></i>Applications
+                                    </a>
+                                    <a href="/short-list" class="btn btn-outline-warning">
+                                        <i class="fa fa-star me-1"></i>Shortlisted
+                                    </a>
+                                    <% } else { %>
+                                        <a href="/jobs" class="btn btn-primary">
+                                            <i class="fa fa-search me-1"></i>Browse Jobs
+                                        </a>
+                                        <a href="/my-applications" class="btn btn-outline-success">
+                                            <i class="fa fa-file-text me-1"></i>My Applications
+                                        </a>
+                                        <a href="/saved-jobs" class="btn btn-outline-warning">
+                                            <i class="fa fa-heart me-1"></i>Saved Jobs
+                                        </a>
+                                        <% } %>
+                                            <a href="/settings" class="btn btn-outline-secondary">
+                                                <i class="fa fa-cog me-1"></i>Settings
+                                            </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+
+<!-- Chart.js for Charts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Applications Overview Chart
+        <% if (monthlyData && monthlyData.length > 0 && monthlyData.some(d => d.count > 0)) { %>
+            const ctx1 = document.getElementById('applicationsChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: <%= JSON.stringify(monthlyData.map(d => d.month)) %>,
+                    datasets: [{
+                        label: 'Applications',
+                        data: <%= JSON.stringify(monthlyData.map(d => d.count)) %>,
+                        backgroundColor: 'rgba(102, 126, 234, 0.6)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 2,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        <% } %>
+
+        // Status Pie Chart
+        <% if (totalApplications > 0) { %>
+            const ctx2 = document.getElementById('statusChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Pending', 'Reviewed', 'Shortlisted', 'Rejected', 'Hired'],
+                    datasets: [{
+                        data: [
+                            <%= pendingApplications || 0 %>,
+                            <%= reviewedCount || 0 %>,
+                            <%= shortlistedApplications || 0 %>,
+                            <%= rejectedCount || 0 %>,
+                            <%= hiredCount || 0 %>
+                        ],
+                        backgroundColor: [
+                            '#ffc107',
+                            '#0dcaf0',
+                            '#198754',
+                            '#dc3545',
+                            '#0d6efd'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 10,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        <% } %>
+    });
+
+    // Auto-dismiss alerts after 5 seconds
+    setTimeout(() => {
+        const alerts = document.querySelectorAll('.alert-dismissible');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                alert.classList.add('fade');
+                setTimeout(() => {
+                    alert.remove();
+                }, 500);
+            }, 4000);
+        });
+    }, 1000);
+</script>
+
+<style>
+    /* Dashboard Styles */
+    .dashboard-wrapper {
+        padding: 0;
+    }
+
+    /* Stat Cards */
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        height: 100%;
+        border: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .stat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .stat-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .stat-icon i {
+        font-size: 24px;
+    }
+
+    .stat-info h3 {
+        font-size: 28px;
+        line-height: 1.2;
+    }
+
+    .stat-info span {
+        font-size: 14px;
+        display: block;
+    }
+
+    .stat-info small {
+        font-size: 12px;
+    }
+
+    /* Background Colors */
+    .bg-primary-soft {
+        background: rgba(13, 110, 253, 0.1);
+    }
+
+    .bg-info-soft {
+        background: rgba(13, 202, 240, 0.1);
+    }
+
+    .bg-success-soft {
+        background: rgba(25, 135, 84, 0.1);
+    }
+
+    .bg-warning-soft {
+        background: rgba(255, 193, 7, 0.1);
+    }
+
+    .bg-danger-soft {
+        background: rgba(220, 53, 69, 0.1);
+    }
+
+    /* Card Styles */
+    .card {
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .card-header {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    /* List Group */
+    .list-group-item {
+        border-color: rgba(0, 0, 0, 0.04);
+        padding: 12px 0;
+    }
+
+    .list-group-item:last-child {
+        border-bottom: none;
+    }
+
+    .list-group-item-action:hover {
+        background-color: rgba(13, 110, 253, 0.02);
+    }
+
+    /* Badge Styles */
+    .badge {
+        padding: 5px 12px;
+        font-weight: 500;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .stat-card {
+            padding: 15px;
+        }
+
+        .stat-info h3 {
+            font-size: 22px;
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+        }
+
+        .stat-icon i {
+            font-size: 20px;
+        }
+    }
+</style>

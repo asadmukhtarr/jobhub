@@ -1,0 +1,384 @@
+<!-- views/afterlogin/myjobs.ejs -->
+<div>
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <div>
+            <h2 class="mb-0">
+                <i class="fa fa-briefcase text-primary me-2"></i>My Jobs
+            </h2>
+            <p class="text-muted mb-0">Manage all your job listings in one place</p>
+        </div>
+        <div>
+            <a href="/creat-new-job" class="btn btn-primary btn-lg">
+                <i class="fa fa-plus-circle me-2"></i> Post New Job
+            </a>
+        </div>
+    </div>
+
+    <!-- Error Message -->
+    <% if (typeof error !=='undefined' && error) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fa fa-exclamation-triangle me-2"></i>
+            <%= error %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <% } %>
+
+            <!-- Stats Summary -->
+            <% if (jobs && jobs.length> 0) { %>
+                <div class="row mb-4">
+                    <div class="col-md-3 col-6 mb-2">
+                        <div class="card bg-primary text-white">
+                            <div class="card-body">
+                                <h6 class="card-title">Total Jobs</h6>
+                                <h2 class="mb-0">
+                                    <%= jobs.length %>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-2">
+                        <div class="card bg-success text-white">
+                            <div class="card-body">
+                                <h6 class="card-title">Active</h6>
+                                <h2 class="mb-0">
+                                    <%= jobs.filter(j=> j.status === 'active' || j.status === 'Active').length %>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-2">
+                        <div class="card bg-info text-white">
+                            <div class="card-body">
+                                <h6 class="card-title">Total Views</h6>
+                                <h2 class="mb-0">
+                                    <%= jobs.reduce((sum, job)=> sum + (job.views || 0), 0) %>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-2">
+                        <div class="card bg-warning text-white">
+                            <div class="card-body">
+                                <h6 class="card-title">Applications</h6>
+                                <h2 class="mb-0">
+                                    <%= jobs.reduce((sum, job)=> sum + (job.applications || 0), 0) %>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                    <!-- Jobs Table -->
+                    <% if (jobs && jobs.length> 0) { %>
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-white py-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fa fa-list me-2"></i>
+                                        <strong>All Jobs</strong>
+                                        <span class="badge bg-primary ms-2">
+                                            <%= jobs.length %>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-outline-secondary btn-sm"
+                                                onclick="filterJobs('all')">
+                                                All
+                                            </button>
+                                            <button class="btn btn-outline-success btn-sm"
+                                                onclick="filterJobs('active')">
+                                                Active
+                                            </button>
+                                            <button class="btn btn-outline-secondary btn-sm"
+                                                onclick="filterJobs('draft')">
+                                                Draft
+                                            </button>
+                                            <button class="btn btn-outline-danger btn-sm"
+                                                onclick="filterJobs('closed')">
+                                                Closed
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0" id="jobsTable">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th style="width: 50px;">#</th>
+                                                <th>Job Title</th>
+                                                <th>Type</th>
+                                                <th>Location</th>
+                                                <th>Posted Date</th>
+                                                <th>Status</th>
+                                                <th>Views</th>
+                                                <th>Applications</th>
+                                                <th style="width: 120px;">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% jobs.forEach((job, index)=> { %>
+                                                <tr data-status="<%= job.status || 'active' %>">
+                                                    <td>
+                                                        <%= index + 1 %>
+                                                    </td>
+                                                    <td>
+                                                        <a href="/job/<%= job._id %>" class="text-decoration-none">
+                                                            <strong>
+                                                                <%= job.title %>
+                                                            </strong>
+                                                        </a>
+                                                        <% if (job.isFeatured) { %>
+                                                            <span class="badge bg-warning ms-1">Featured</span>
+                                                            <% } %>
+                                                    </td>
+                                                    <td>
+                                                        <span
+                                                            class="badge bg-<%= job.type === 'Full-time' ? 'primary' : job.type === 'Part-time' ? 'info' : job.type === 'Contract' ? 'warning' : 'secondary' %>">
+                                                            <%= job.type || 'N/A' %>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <i class="fa fa-map-marker text-muted me-1"></i>
+                                                        <%= job.location || 'Remote' %>
+                                                    </td>
+                                                    <td>
+                                                        <small>
+                                                            <i class="fa fa-calendar text-muted me-1"></i>
+                                                            <%= job.createdAt ? new
+                                                                Date(job.createdAt).toLocaleDateString('en-US', {
+                                                                year: 'numeric' , month: 'short' , day: 'numeric' })
+                                                                : 'N/A' %>
+                                                        </small>
+                                                    </td>
+                                                    <td>
+                                                        <% const status=job.status || 'active' ; const
+                                                            statusBadge={ 'active' : 'success' , 'Active' : 'success'
+                                                            , 'draft' : 'secondary' , 'Draft' : 'secondary' , 'closed'
+                                                            : 'danger' , 'Closed' : 'danger' , 'expired' : 'dark' };
+                                                            const statusLabel={ 'active' : 'Active' , 'Active'
+                                                            : 'Active' , 'draft' : 'Draft' , 'Draft' : 'Draft'
+                                                            , 'closed' : 'Closed' , 'Closed' : 'Closed' , 'expired'
+                                                            : 'Expired' }; %>
+                                                            <span
+                                                                class="badge bg-<%= statusBadge[status] || 'secondary' %>">
+                                                                <i class="fa fa-circle me-1"
+                                                                    style="font-size: 8px;"></i>
+                                                                <%= statusLabel[status] || status %>
+                                                            </span>
+                                                    </td>
+                                                    <td>
+                                                        <i class="fa fa-eye text-muted me-1"></i>
+                                                        <%= job.views || 0 %>
+                                                    </td>
+                                                    <td>
+                                                        <i class="fa fa-users text-muted me-1"></i>
+                                                        <%= job.applications || 0 %>
+                                                    </td>
+                                                    <!-- Actions column in myjobs.ejs -->
+                                                    <td>
+                                                        <div class="btn-group btn-group-sm" role="group">
+                                                            <a href="/admin/job/<%= job._id %>"
+                                                                class="btn btn-outline-primary" title="View">
+                                                                <i class="fa fa-eye"></i>
+                                                            </a>
+                                                            <a href="/edit-job/<%= job._id %>"
+                                                                class="btn btn-outline-warning" title="Edit">
+                                                                <i class="fa fa-edit"></i>
+                                                            </a>
+                                                            <button class="btn btn-outline-danger"
+                                                                onclick="deleteJob('<%= job._id %>', '<%= job.title %>')"
+                                                                title="Delete">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">Showing <%= jobs.length %> jobs</span>
+                                    <div>
+                                        <button class="btn btn-outline-secondary btn-sm">
+                                            <i class="fa fa-download"></i> Export
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- No Jobs Found -->
+                        <% } else { %>
+                            <div class="card shadow-sm">
+                                <div class="card-body text-center py-5">
+                                    <div class="mb-4">
+                                        <i class="fa fa-briefcase fa-5x text-muted"></i>
+                                    </div>
+                                    <h4 class="mb-2">No Jobs Posted Yet</h4>
+                                    <p class="text-muted mb-4">You haven't posted any jobs. Start by creating your first
+                                        job listing!</p>
+                                    <a href="/creat-new-job" class="btn btn-primary btn-lg">
+                                        <i class="fa fa-plus-circle me-2"></i> Create Your First Job
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Quick Tips -->
+                            <div class="row mt-4">
+                                <div class="col-md-4">
+                                    <div class="card border-0 shadow-sm">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-rocket fa-2x text-primary mb-2"></i>
+                                            <h6>Post Your First Job</h6>
+                                            <p class="text-muted small">Create a compelling job listing to attract top
+                                                talent</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card border-0 shadow-sm">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-users fa-2x text-success mb-2"></i>
+                                            <h6>Reach Candidates</h6>
+                                            <p class="text-muted small">Your job will be visible to thousands of job
+                                                seekers</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card border-0 shadow-sm">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-bar-chart fa-2x text-info mb-2"></i>
+                                            <h6>Track Performance</h6>
+                                            <p class="text-muted small">Monitor views and applications in real-time</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+</div>
+
+<!-- Styles -->
+<style>
+    .table td {
+        vertical-align: middle;
+    }
+
+    .table th {
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .btn-group .btn {
+        padding: 0.25rem 0.5rem;
+    }
+
+    .btn-group .btn:hover {
+        transform: scale(1.1);
+    }
+
+    .badge .fa-circle {
+        opacity: 0.7;
+    }
+
+    .card-header {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(102, 126, 234, 0.05);
+        cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+        .table-responsive {
+            font-size: 0.85rem;
+        }
+
+        .btn-group .btn {
+            padding: 0.15rem 0.35rem;
+            font-size: 0.75rem;
+        }
+    }
+</style>
+
+<!-- JavaScript -->
+<script>
+    // Filter jobs by status
+    function filterJobs(status) {
+        const rows = document.querySelectorAll('#jobsTable tbody tr');
+        rows.forEach(row => {
+            if (status === 'all') {
+                row.style.display = '';
+            } else {
+                const rowStatus = row.getAttribute('data-status');
+                if (rowStatus && rowStatus.toLowerCase() === status) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        });
+
+        // Update active button
+        document.querySelectorAll('.btn-group .btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
+    }
+
+    // View job details
+    function viewJob(jobId) {
+        window.location.href = `/job/${jobId}`;
+    }
+
+    // Edit job
+    function editJob(jobId) {
+        window.location.href = `/edit-job/${jobId}`;
+    }
+
+    // Delete job with confirmation
+    function deleteJob(jobId, jobTitle) {
+        if (confirm(`Are you sure you want to delete "${jobTitle}"? This action cannot be undone.`)) {
+            fetch(`/delete-job/${jobId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Reload the page to show updated list
+                        window.location.reload();
+                    } else {
+                        alert('Error deleting job: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while deleting the job.');
+                });
+        }
+    }
+
+    // Initialize filter buttons
+    document.addEventListener('DOMContentLoaded', function () {
+        // Add active class to "All" button by default
+        const allBtn = document.querySelector('.btn-group .btn-outline-secondary');
+        if (allBtn) {
+            allBtn.classList.add('active');
+        }
+    });
+</script>

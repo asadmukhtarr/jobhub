@@ -1,0 +1,583 @@
+<!-- views/afterlogin/create-job.ejs -->
+<div>
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-0">
+                <i class="fa fa-plus-circle text-primary me-2"></i>Post a New Job
+            </h2>
+            <p class="text-muted mb-0">Fill in the details below to create a new job listing</p>
+        </div>
+        <div>
+            <span class="badge bg-primary fs-6 p-2">
+                <i class="fa fa-clock-o me-1"></i> Draft Saved
+            </span>
+        </div>
+    </div>
+
+    <!-- Display Success Messages -->
+    <% if (success) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fa fa-check-circle me-2"></i>
+            <%= success %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <% } %>
+
+            <!-- Display Error Messages -->
+            <% if (error) { %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fa fa-exclamation-circle me-2"></i>
+                    <%= error %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                <% } %>
+
+                    <!-- Display Validation Errors -->
+                    <% if (errors && errors.length> 0) { %>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fa fa-exclamation-triangle me-2"></i>
+                            <strong>Please fix the following errors:</strong>
+                            <ul class="mb-0 mt-2">
+                                <% errors.forEach(error=> { %>
+                                    <li>
+                                        <%= error %>
+                                    </li>
+                                    <% }) %>
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        <% } %>
+
+                            <!-- Main Form Card -->
+                            <div class="card shadow-lg border-0">
+                                <div class="card-header bg-gradient-primary text-white py-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa fa-briefcase fa-2x me-3"></i>
+                                        <div>
+                                            <h4 class="mb-0">Post a New Job</h4>
+                                            <small class="opacity-75">Fill in all required fields (*)</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body p-4">
+                                    <form action="/save/job" method="POST" id="jobForm" novalidate>
+
+                                        <!-- Job Title -->
+                                        <div class="mb-4">
+                                            <label for="title" class="form-label fw-bold">
+                                                <i class="fa fa-tag text-primary me-1"></i> Job Title *
+                                            </label>
+                                            <input type="text" class="form-control form-control-lg" id="title"
+                                                name="title" required
+                                                placeholder="e.g., Senior Software Engineer - Full Stack"
+                                                value="<%= job ? job.title : '' %>">
+                                            <small class="text-muted">Be specific and include keywords that candidates
+                                                might search for</small>
+                                        </div>
+
+                                        <!-- Two Column Layout -->
+                                        <div class="row">
+                                            <!-- Left Column -->
+                                            <div class="col-md-6">
+                                                <!-- Job Type -->
+                                                <div class="mb-4">
+                                                    <label for="type" class="form-label fw-bold">
+                                                        <i class="fa fa-clock-o text-primary me-1"></i> Job Type *
+                                                    </label>
+                                                    <select class="form-select form-select-lg" id="type" name="type"
+                                                        required>
+                                                        <option value="">Select Job Type</option>
+                                                        <option value="Full-time" <%=job && job.type==='Full-time'
+                                                            ? 'selected' : '' %>>Full-time</option>
+                                                        <option value="Part-time" <%=job && job.type==='Part-time'
+                                                            ? 'selected' : '' %>>Part-time</option>
+                                                        <option value="Contract" <%=job && job.type==='Contract'
+                                                            ? 'selected' : '' %>>Contract</option>
+                                                        <option value="Freelance" <%=job && job.type==='Freelance'
+                                                            ? 'selected' : '' %>>Freelance</option>
+                                                        <option value="Internship" <%=job && job.type==='Internship'
+                                                            ? 'selected' : '' %>>Internship</option>
+                                                        <option value="Remote" <%=job && job.type==='Remote'
+                                                            ? 'selected' : '' %>>Remote</option>
+                                                    </select>
+                                                </div>
+
+                                                <!-- Location -->
+                                                <div class="mb-4">
+                                                    <label for="location" class="form-label fw-bold">
+                                                        <i class="fa fa-map-marker text-primary me-1"></i> Location *
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-lg"
+                                                        id="location" name="location" required
+                                                        placeholder="e.g., New York, NY or Remote"
+                                                        value="<%= job ? job.location : '' %>">
+                                                </div>
+
+                                                <!-- Salary Range -->
+                                                <div class="mb-4">
+                                                    <label for="salary" class="form-label fw-bold">
+                                                        <i class="fa fa-money text-primary me-1"></i> Salary Range
+                                                    </label>
+                                                    <div class="input-group input-group-lg">
+                                                        <span class="input-group-text bg-light">$</span>
+                                                        <input type="text" class="form-control" id="salary"
+                                                            name="salary" placeholder="e.g., 50,000 - 70,000"
+                                                            value="<%= job ? job.salary : '' %>">
+                                                        <span class="input-group-text bg-light">/year</span>
+                                                    </div>
+                                                    <small class="text-muted">Enter the salary range or leave blank for
+                                                        negotiable</small>
+                                                </div>
+                                            </div>
+
+                                            <!-- Right Column -->
+                                            <div class="col-md-6">
+                                                <!-- Experience Level -->
+                                                <div class="mb-4">
+                                                    <label for="experience" class="form-label fw-bold">
+                                                        <i class="fa fa-graduation-cap text-primary me-1"></i>
+                                                        Experience Required *
+                                                    </label>
+                                                    <select class="form-select form-select-lg" id="experience"
+                                                        name="experience" required>
+                                                        <option value="">Select Experience Level</option>
+                                                        <option value="Entry Level" <%=job &&
+                                                            job.experience==='Entry Level' ? 'selected' : '' %>>Entry
+                                                            Level (0-1 years)</option>
+                                                        <option value="Junior" <%=job && job.experience==='Junior'
+                                                            ? 'selected' : '' %>>Junior (1-3 years)</option>
+                                                        <option value="Mid-Level" <%=job && job.experience==='Mid-Level'
+                                                            ? 'selected' : '' %>>Mid-Level (3-5 years)</option>
+                                                        <option value="Senior" <%=job && job.experience==='Senior'
+                                                            ? 'selected' : '' %>>Senior (5-8 years)</option>
+                                                        <option value="Lead" <%=job && job.experience==='Lead'
+                                                            ? 'selected' : '' %>>Lead (8+ years)</option>
+                                                        <option value="Executive" <%=job && job.experience==='Executive'
+                                                            ? 'selected' : '' %>>Executive (10+ years)</option>
+                                                    </select>
+                                                </div>
+
+                                                <!-- Vacancies -->
+                                                <div class="mb-4">
+                                                    <label for="vacancies" class="form-label fw-bold">
+                                                        <i class="fa fa-users text-primary me-1"></i> Number of
+                                                        Vacancies *
+                                                    </label>
+                                                    <div class="input-group input-group-lg">
+                                                        <button class="btn btn-outline-secondary" type="button"
+                                                            onclick="decrementVacancy()">
+                                                            <i class="fa fa-minus"></i>
+                                                        </button>
+                                                        <input type="number" class="form-control text-center"
+                                                            id="vacancies" name="vacancies" required min="1"
+                                                            value="<%= job ? job.vacancies : 1 %>">
+                                                        <button class="btn btn-outline-secondary" type="button"
+                                                            onclick="incrementVacancy()">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Job Status -->
+                                                <div class="mb-4">
+                                                    <label for="status" class="form-label fw-bold">
+                                                        <i class="fa fa-flag text-primary me-1"></i> Job Status
+                                                    </label>
+                                                    <select class="form-select form-select-lg" id="status"
+                                                        name="status">
+                                                        <option value="active" <%=job && job.status==='active'
+                                                            ? 'selected' : '' %>>Active - Accepting Applications
+                                                        </option>
+                                                        <option value="draft" <%=job && job.status==='draft'
+                                                            ? 'selected' : '' %>>Draft - Save for Later</option>
+                                                        <option value="closed" <%=job && job.status==='closed'
+                                                            ? 'selected' : '' %>>Closed - No Longer Accepting</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Skills Section -->
+                                        <div class="mb-4">
+                                            <label for="skills" class="form-label fw-bold">
+                                                <i class="fa fa-code text-primary me-1"></i> Skills Required *
+                                            </label>
+                                            <input type="text" class="form-control form-control-lg" id="skills"
+                                                name="skills" required
+                                                placeholder="e.g., JavaScript, React, Node.js, MongoDB"
+                                                value="<%= job ? job.skills : '' %>">
+                                            <div class="mt-2" id="skillsPreview"></div>
+                                            <small class="text-muted">Separate skills with commas. We'll create tags
+                                                automatically</small>
+                                        </div>
+
+                                        <!-- Job Description -->
+                                        <div class="mb-4">
+                                            <label for="description" class="form-label fw-bold">
+                                                <i class="fa fa-file-text text-primary me-1"></i> Job Description *
+                                            </label>
+                                            <textarea class="form-control" id="description" name="description" rows="5"
+                                                required
+                                                placeholder="Describe the job role, responsibilities, and what the candidate will do..."><%= job ? job.description : '' %></textarea>
+                                            <small class="text-muted">Provide a clear and detailed description of the
+                                                job</small>
+                                        </div>
+
+                                        <!-- Requirements -->
+                                        <div class="mb-4">
+                                            <label for="requirements" class="form-label fw-bold">
+                                                <i class="fa fa-check-circle text-primary me-1"></i> Requirements *
+                                            </label>
+                                            <textarea class="form-control" id="requirements" name="requirements"
+                                                rows="4" required
+                                                placeholder="• Bachelor's degree in Computer Science or related field\n• 5+ years of experience in software development\n• Strong knowledge of JavaScript and modern frameworks"><%= job ? job.requirements : '' %></textarea>
+                                            <small class="text-muted">Use bullet points or numbered list for
+                                                clarity</small>
+                                        </div>
+
+                                        <!-- Benefits -->
+                                        <div class="mb-4">
+                                            <label for="benefits" class="form-label fw-bold">
+                                                <i class="fa fa-gift text-primary me-1"></i> Benefits & Perks
+                                            </label>
+                                            <textarea class="form-control" id="benefits" name="benefits" rows="3"
+                                                placeholder="• Health Insurance\n• 401(k) matching\n• Flexible working hours\n• Remote work options"><%= job ? job.benefits : '' %></textarea>
+                                        </div>
+
+                                        <!-- Hidden Fields -->
+                                        <input type="hidden" name="user_id" value="<%= user ? user.userId : '' %>">
+                                        <input type="hidden" name="views" value="0">
+
+                                        <!-- Form Actions -->
+                                        <div class="border-top pt-4 mt-4">
+                                            <div
+                                                class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                                                <div>
+                                                    <a href="/dashboard" class="btn btn-outline-secondary btn-lg">
+                                                        <i class="fa fa-arrow-left me-2"></i> Cancel
+                                                    </a>
+                                                    <button type="reset" class="btn btn-outline-warning btn-lg">
+                                                        <i class="fa fa-refresh me-2"></i> Reset
+                                                    </button>
+                                                </div>
+                                                <div>
+                                                    <button type="button" class="btn btn-secondary btn-lg me-2"
+                                                        onclick="saveDraft()">
+                                                        <i class="fa fa-file-text-o me-2"></i> Save Draft
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
+                                                        <i class="fa fa-send me-2"></i> Publish Job
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- Quick Tips Card -->
+                            <div class="row mt-4">
+                                <div class="col-md-4">
+                                    <div class="card border-0 shadow-sm h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-rocket fa-3x text-primary mb-3"></i>
+                                            <h6>Get More Applications</h6>
+                                            <p class="text-muted small">Use relevant keywords and clear job titles to
+                                                attract qualified candidates</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card border-0 shadow-sm h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-eye fa-3x text-success mb-3"></i>
+                                            <h6>Increase Visibility</h6>
+                                            <p class="text-muted small">Add skills, location, and competitive salary to
+                                                make your job stand out</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card border-0 shadow-sm h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-clock-o fa-3x text-warning mb-3"></i>
+                                            <h6>Save Time</h6>
+                                            <p class="text-muted small">Save as draft and publish later. You can also
+                                                duplicate existing jobs</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+</div>
+
+<style>
+    /* Form Styles */
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .form-control,
+    .form-select {
+        border: 2px solid #e9ecef;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+
+    .form-control-lg,
+    .form-select-lg {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+    }
+
+    /* Skills Preview */
+    .skill-tag {
+        display: inline-block;
+        padding: 5px 12px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        margin: 3px;
+    }
+
+    /* Card Hover Effects */
+    .card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    /* Input Group Styles */
+    .input-group .btn {
+        border: 2px solid #e9ecef;
+        background: white;
+    }
+
+    .input-group .btn:hover {
+        background: #f8f9fa;
+    }
+
+    .input-group .form-control {
+        border-left: none;
+        border-right: none;
+    }
+
+    .input-group .form-control:focus {
+        border-color: #e9ecef;
+        box-shadow: none;
+    }
+
+    .input-group .input-group-text {
+        border: 2px solid #e9ecef;
+        background: #f8f9fa;
+    }
+
+    /* Validation Styles */
+    .is-invalid {
+        border-color: #dc3545 !important;
+    }
+
+    .is-invalid:focus {
+        border-color: #dc3545 !important;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .card-body {
+            padding: 1.25rem !important;
+        }
+
+        .d-flex.flex-wrap {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .d-flex.flex-wrap>div {
+            width: 100%;
+        }
+
+        .d-flex.flex-wrap .btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<script>
+    // Skills Preview - Show tags as user types
+    document.getElementById('skills').addEventListener('input', function () {
+        const skills = this.value.split(',').map(s => s.trim()).filter(s => s);
+        const preview = document.getElementById('skillsPreview');
+        if (skills.length > 0) {
+            preview.innerHTML = skills.map(s => `<span class="skill-tag">${s}</span>`).join(' ');
+        } else {
+            preview.innerHTML = '';
+        }
+    });
+
+    // Vacancy increment/decrement
+    function incrementVacancy() {
+        const input = document.getElementById('vacancies');
+        input.value = parseInt(input.value) + 1;
+    }
+
+    function decrementVacancy() {
+        const input = document.getElementById('vacancies');
+        if (parseInt(input.value) > 1) {
+            input.value = parseInt(input.value) - 1;
+        }
+    }
+
+    // Save Draft Function
+    function saveDraft() {
+        document.getElementById('status').value = 'draft';
+        document.getElementById('jobForm').submit();
+    }
+
+    // Enhanced Form Validation with Visual Feedback
+    document.getElementById('jobForm').addEventListener('submit', function (e) {
+        // Prevent default if we have validation errors
+        let hasErrors = false;
+
+        // Clear previous validation states
+        document.querySelectorAll('.is-invalid').forEach(el => {
+            el.classList.remove('is-invalid');
+        });
+
+        // Remove existing error alerts
+        const existingAlert = document.querySelector('.alert-danger');
+        if (existingAlert && !existingAlert.querySelector('ul')) {
+            existingAlert.remove();
+        }
+
+        // Validate Title
+        const title = document.getElementById('title');
+        if (!title.value.trim() || title.value.trim().length < 3) {
+            title.classList.add('is-invalid');
+            hasErrors = true;
+        }
+
+        // Validate Type
+        const type = document.getElementById('type');
+        if (!type.value) {
+            type.classList.add('is-invalid');
+            hasErrors = true;
+        }
+
+        // Validate Location
+        const location = document.getElementById('location');
+        if (!location.value.trim() || location.value.trim().length < 2) {
+            location.classList.add('is-invalid');
+            hasErrors = true;
+        }
+
+        // Validate Skills
+        const skills = document.getElementById('skills');
+        if (!skills.value.trim() || skills.value.trim().length < 2) {
+            skills.classList.add('is-invalid');
+            hasErrors = true;
+        }
+
+        // Validate Description
+        const description = document.getElementById('description');
+        if (!description.value.trim() || description.value.trim().length < 20) {
+            description.classList.add('is-invalid');
+            hasErrors = true;
+        }
+
+        // Validate Requirements
+        const requirements = document.getElementById('requirements');
+        if (!requirements.value.trim() || requirements.value.trim().length < 10) {
+            requirements.classList.add('is-invalid');
+            hasErrors = true;
+        }
+
+        // Validate Vacancies
+        const vacancies = document.getElementById('vacancies');
+        if (parseInt(vacancies.value) < 1) {
+            vacancies.classList.add('is-invalid');
+            hasErrors = true;
+        }
+
+        // Validate Experience
+        const experience = document.getElementById('experience');
+        if (!experience.value) {
+            experience.classList.add('is-invalid');
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
+            e.preventDefault();
+
+            // Show error message
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'alert alert-danger alert-dismissible fade show';
+            errorMsg.innerHTML = `
+                <i class="fa fa-exclamation-triangle me-2"></i>
+                <strong>Please fix the following errors:</strong>
+                <ul class="mb-0 mt-2">
+                    ${!title.value.trim() || title.value.trim().length < 3 ? '<li>Job title is required (minimum 3 characters)</li>' : ''}
+                    ${!type.value ? '<li>Please select a job type</li>' : ''}
+                    ${!location.value.trim() || location.value.trim().length < 2 ? '<li>Location is required</li>' : ''}
+                    ${!skills.value.trim() || skills.value.trim().length < 2 ? '<li>Please enter at least one skill</li>' : ''}
+                    ${!description.value.trim() || description.value.trim().length < 20 ? '<li>Job description must be at least 20 characters</li>' : ''}
+                    ${!requirements.value.trim() || requirements.value.trim().length < 10 ? '<li>Job requirements must be at least 10 characters</li>' : ''}
+                    ${parseInt(vacancies.value) < 1 ? '<li>Number of vacancies must be at least 1</li>' : ''}
+                    ${!experience.value ? '<li>Please select experience level</li>' : ''}
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+
+            const form = document.getElementById('jobForm');
+            form.parentNode.insertBefore(errorMsg, form);
+
+            // Scroll to error
+            errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            return false;
+        }
+
+        // If valid, show loading state
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin me-2"></i> Publishing...';
+    });
+
+    // Real-time validation feedback
+    document.querySelectorAll('.form-control, .form-select').forEach(input => {
+        input.addEventListener('input', function () {
+            if (this.classList.contains('is-invalid')) {
+                this.classList.remove('is-invalid');
+            }
+        });
+
+        input.addEventListener('change', function () {
+            if (this.classList.contains('is-invalid')) {
+                this.classList.remove('is-invalid');
+            }
+        });
+    });
+
+    // Auto-dismiss alerts after 5 seconds
+    setTimeout(() => {
+        const alerts = document.querySelectorAll('.alert-dismissible');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                alert.classList.add('fade');
+                setTimeout(() => {
+                    alert.remove();
+                }, 500);
+            }, 4000);
+        });
+    }, 1000);
+</script>

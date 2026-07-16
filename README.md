@@ -736,6 +736,26 @@ The following screenshots will be added soon.
 ## 📝 Register Page
 
 ![Register Page](screenshots/register.png)
+
+## 📝 Dashboard
+
+![Dashboard](screenshots/employeer/dashboard.png)
+## 📝 Create New Job
+
+![Create New Job](screenshots/employeer/createnewjob.png)
+## 📝 My Jobs
+
+![My Jobs](screenshots/employeer/myjobs.png.png)
+## 📝 settings
+
+![Settings](screenshots/employeer/settings.png) 
+## 📝 showjobs
+
+![Show Jobs Portal ](screenshots/employeer/showjobs.png)
+## 📝 Applications For Seeker
+
+![My Applications ](screenshots/seeker/applications.png)
+
 # 🛣️ Future Improvements
 
 The following features are planned for future releases.

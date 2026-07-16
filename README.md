@@ -414,4 +414,230 @@ This project demonstrates several real-world software engineering concepts inclu
 - Clean Code Principles
 - Scalable Folder Structure
 - Secure User Authentication
+# ⚙️ Installation Guide
+
+Follow the steps below to run the project locally.
+
+---
+
+## 📋 Prerequisites
+
+Before getting started, make sure you have installed:
+
+- Node.js (v18 or later)
+- MongoDB (Local or Atlas)
+- Git
+- VS Code (Recommended)
+
+You can verify the installation using:
+
+```bash
+node -v
+npm -v
+git --version
+```
+
+---
+
+# 📥 Clone Repository
+
+```bash
+git clone https://github.com/YOUR_GITHUB_USERNAME/jobhub.git
+```
+
+```bash
+cd jobhub
+```
+
+---
+
+# 📦 Install Dependencies
+
+Install all required packages.
+
+```bash
+npm install
+```
+
+---
+
+# 🔑 Environment Variables
+
+Create a **.env** file in the project root.
+
+```env
+PORT=3000
+
+MONGODB_URI=mongodb://127.0.0.1:27017/jobhub
+
+SESSION_SECRET=your_super_secret_key
+
+NODE_ENV=development
+```
+
+> ⚠️ Never commit your `.env` file to GitHub.
+
+---
+
+# ▶️ Running the Project
+
+### Development Mode
+
+```bash
+npm run dev
+```
+
+### Production Mode
+
+```bash
+npm start
+```
+
+---
+
+# 🌐 Application URLs
+
+Once the server is running:
+
+| Service | URL |
+|---------|------|
+| Home Page | http://localhost:3000 |
+| Login | http://localhost:3000/login |
+| Register | http://localhost:3000/register |
+| Jobs | http://localhost:3000/jobs |
+| Dashboard | http://localhost:3000/dashboard |
+
+---
+
+# 📡 REST API Overview
+
+The application follows RESTful API principles.
+
+## Public Endpoints
+
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /jobs | Get all jobs |
+| GET | /jobs/:id | Get single job |
+| POST | /register | Register user |
+| POST | /login | Login user |
+
+---
+
+## Protected Endpoints
+
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /dashboard | User Dashboard |
+| GET | /applications | User Applications |
+| POST | /apply | Apply for Job |
+| PUT | /profile | Update Profile |
+| PUT | /password | Change Password |
+
+---
+
+## Employer Endpoints
+
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /my-jobs | View Posted Jobs |
+| POST | /create-job | Create New Job |
+| PUT | /job/:id | Update Job |
+| DELETE | /job/:id | Delete Job |
+| GET | /job/:id/applicants | View Applicants |
+| PUT | /application/:id/status | Update Applicant Status |
+
+---
+
+# 📨 Sample API Response
+
+```json
+{
+  "success": true,
+  "message": "Job created successfully.",
+  "data": {
+    "_id": "665ac9a18d93ab2f5ef91a10",
+    "title": "Full Stack Developer",
+    "company": "JobHub Technologies",
+    "location": "Lahore, Pakistan",
+    "type": "Full-Time"
+  }
+}
+```
+
+---
+
+# 🔒 Authentication
+
+The application uses **Session-Based Authentication**.
+
+Authentication flow:
+
+```
+User Login
+      │
+      ▼
+Password Verification
+      │
+      ▼
+Session Created
+      │
+      ▼
+Cookie Stored
+      │
+      ▼
+Protected Routes
+```
+
+---
+
+# ✅ Validation
+
+The application includes validation on both the client and server sides.
+
+### Client Side
+
+- Required Fields
+- Email Format
+- Password Length
+- Confirm Password
+- Empty Input Validation
+
+### Server Side
+
+- Duplicate Email Check
+- Session Validation
+- User Authorization
+- Data Sanitization
+- Input Validation
+
+---
+
+# 🚨 Error Handling
+
+The project handles common errors gracefully.
+
+- Invalid Login Credentials
+- Unauthorized Access
+- Invalid Request
+- Database Errors
+- Page Not Found (404)
+- Internal Server Error (500)
+
+
+# 🧪 Testing Checklist
+
+Before deployment, verify the following:
+
+- ✅ User Registration
+- ✅ User Login
+- ✅ Job Creation
+- ✅ Job Update
+- ✅ Job Application
+- ✅ Application Tracking
+- ✅ Dashboard Statistics
+- ✅ Logout
+- ✅ Session Expiry
+- ✅ Responsive Layout
+
 

@@ -484,13 +484,7 @@ NODE_ENV=development
 ### Development Mode
 
 ```bash
-npm run dev
-```
-
-### Production Mode
-
-```bash
-npm start
+nodemon
 ```
 
 ---

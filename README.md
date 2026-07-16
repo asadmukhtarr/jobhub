@@ -197,3 +197,221 @@ Finding the right job and managing the recruitment process efficiently remains a
 Many existing solutions are either too complex, expensive, or lack essential features such as applicant tracking, role-based dashboards, and recruitment analytics.
 
 **JobHub** solves these problems by providing a centralized platform where companies can hire efficiently while candidates can easily discover and apply for opportunities.
+# 🏗️ System Architecture
+
+```text
+                        ┌──────────────────────────┐
+                        │        Web Browser       │
+                        │ (Desktop / Mobile User)  │
+                        └─────────────┬────────────┘
+                                      │
+                                      ▼
+                        ┌──────────────────────────┐
+                        │      Express Server      │
+                        │      Node.js Runtime     │
+                        └─────────────┬────────────┘
+                                      │
+             ┌────────────────────────┼────────────────────────┐
+             ▼                        ▼                        ▼
+      Authentication             Job Module            Application Module
+      Session Control          CRUD Operations          Apply / Track Jobs
+             │                        │                        │
+             └────────────────────────┼────────────────────────┘
+                                      ▼
+                           ┌─────────────────────┐
+                           │      MongoDB        │
+                           │ Users • Jobs • Apps │
+                           └─────────────────────┘
+```
+
+---
+
+# 📂 Project Structure
+
+```text
+JobHub
+│
+├── middleware/
+│   └── auth.js
+│
+├── public/
+│   ├── css/
+│   ├── js/
+│   ├── images/
+│   └── uploads/
+│
+├── views/
+│   ├── afterlogin/
+│   ├── includes/
+│   ├── layouts/
+│   ├── partials/
+│   ├── index.ejs
+│   ├── login.ejs
+│   ├── register.ejs
+│   ├── jobs.ejs
+│   └── ...
+│
+├── package.json
+├── package-lock.json
+├── .gitignore
+├── README.md
+└── index.js
+```
+
+---
+
+# 🗄️ Database Design
+
+The application is powered by **MongoDB**, using a document-based database structure that allows flexibility, scalability, and high performance.
+
+---
+
+## 👤 Users Collection
+
+Stores information for both **Employers** and **Job Seekers**.
+
+### Main Fields
+
+- Full Name
+- Email
+- Password (Encrypted)
+- Phone Number
+- Role
+- Company
+- Bio
+- Website
+- Location
+- Session Token
+- Created Date
+- Updated Date
+
+---
+
+## 💼 Jobs Collection
+
+Stores all published job opportunities.
+
+### Main Fields
+
+- Job Title
+- Company
+- Description
+- Required Skills
+- Salary
+- Location
+- Experience
+- Employment Type
+- Vacancies
+- Status
+- Applications Count
+- Views
+- Created Date
+
+---
+
+## 📄 Applications Collection
+
+Stores every submitted application.
+
+### Main Fields
+
+- Applicant Information
+- Job Information
+- Cover Letter
+- Skills
+- Education
+- Experience
+- Status
+- Applied Date
+- Updated Date
+
+
+# 🔄 Application Workflow
+
+```text
+Register
+    │
+    ▼
+Login
+    │
+    ▼
+Dashboard
+    │
+ ┌──┴─────────────┐
+ │                │
+ ▼                ▼
+Employer      Job Seeker
+ │                │
+ ▼                ▼
+Create Job    Browse Jobs
+ │                │
+ ▼                ▼
+Receive Apps  Apply Job
+ │                │
+ ▼                ▼
+Review Apps   Track Status
+ │                │
+ ▼                ▼
+Hire / Reject  View Updates
+```
+
+
+# 🔐 Authentication Flow
+
+```text
+User
+ │
+ ▼
+Register
+ │
+ ▼
+Password Hashing (bcrypt)
+ │
+ ▼
+MongoDB
+ │
+ ▼
+Login
+ │
+ ▼
+Session Created
+ │
+ ▼
+Role Verification
+ │
+ ▼
+Dashboard Access
+```
+
+
+# 📊 Project Modules
+
+| Module | Description |
+|---------|-------------|
+| Authentication | User Registration & Login |
+| Employer Dashboard | Manage Jobs & Applicants |
+| Job Seeker Dashboard | Browse & Apply Jobs |
+| Job Management | Create, Update & Delete Jobs |
+| Application Module | Apply & Track Applications |
+| Analytics | Charts & Statistics |
+| Settings | Profile & Password Management |
+| Public Pages | Home, About, Contact, FAQ |
+
+
+# 💻 Software Engineering Concepts
+
+This project demonstrates several real-world software engineering concepts including:
+
+- MVC-inspired project organization
+- Session-based Authentication
+- CRUD Operations
+- RESTful API Design
+- Role-Based Authorization
+- Form Validation
+- Database Relationships
+- Modular Development
+- Responsive User Interface
+- Clean Code Principles
+- Scalable Folder Structure
+- Secure User Authentication
+

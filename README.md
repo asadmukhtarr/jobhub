@@ -639,5 +639,195 @@ Before deployment, verify the following:
 - ✅ Logout
 - ✅ Session Expiry
 - ✅ Responsive Layout
+# 🔒 Security Features
 
+Security was considered throughout the development process to ensure a safe and reliable user experience.
+
+### Authentication & Authorization
+
+- Session-Based Authentication
+- Role-Based Access Control
+- Protected Routes
+- Secure Login & Registration
+- Logout Session Management
+
+### Password Security
+
+- Password Hashing using bcrypt
+- Encrypted Password Storage
+- Secure Password Update
+
+### Input Validation
+
+- Client-side Validation
+- Server-side Validation
+- Required Field Validation
+- Email Format Validation
+- Duplicate Email Prevention
+
+### Secure Coding Practices
+
+- Session Protection
+- Authentication Middleware
+- Input Sanitization
+- Error Handling
+- Secure Database Queries
+
+---
+
+# ⚡ Performance Optimizations
+
+The project includes several optimizations for better performance and scalability.
+
+- Fast Server-Side Rendering (EJS)
+- Optimized MongoDB Queries
+- Clean Folder Structure
+- Reusable Components
+- Efficient Session Management
+- Responsive Bootstrap Layout
+- Lightweight Frontend Assets
+- Organized Codebase
+- Modular Development Approach
+
+---
+
+# 🚀 Deployment
+
+The application is developed with a deployment-ready architecture and can be hosted on multiple cloud platforms.
+
+### Supported Platforms
+
+- Render
+- Railway
+- DigitalOcean
+- VPS (Ubuntu)
+- AWS EC2
+- Microsoft Azure
+
+> Deployment instructions will be added in future releases.
+
+---
+
+# 📸 Screenshots
+
+The following screenshots will be added soon.
+
+- 🏠 Home Page
+- 🔐 Login Page
+- 📝 Register Page
+- 💼 Browse Jobs
+- 📄 Job Details
+- 👨‍💼 Employer Dashboard
+- 👨‍🎓 Job Seeker Dashboard
+- 📊 Analytics Dashboard
+- ⚙️ Settings Page
+
+---
+
+# 🛣️ Future Improvements
+
+The following features are planned for future releases.
+
+- Resume / CV Upload
+- Email Notifications
+- Google Authentication
+- Company Profiles
+- Saved Jobs
+- Advanced Search Filters
+- Real-Time Notifications
+- Chat Between Employer & Candidate
+- Admin Dashboard
+- Mobile Application
+- AI-Based Job Recommendations
+- Interview Scheduling
+- Resume Parsing
+- Multi-language Support
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome!
+
+If you have ideas for improvements, feel free to:
+
+1. Fork the repository
+2. Create a new feature branch
+3. Commit your changes
+4. Push to your branch
+5. Open a Pull Request
+
+Every contribution is highly appreciated.
+
+---
+
+# 📄 License
+
+This project is licensed under the **MIT License**.
+
+You are free to use, modify, and distribute this project under the terms of the license.
+
+See the `LICENSE` file for more information.
+
+---
+
+# 👨‍💻 Author
+
+## Muhammad Asad
+
+**Full Stack Web & Mobile Application Developer**
+
+Specializing in:
+
+- Laravel
+- React.js
+- Node.js
+- Express.js
+- MongoDB
+- MySQL
+- PHP
+- JavaScript
+
+---
+
+### 🌐 Connect With Me
+
+- 💼 LinkedIn: *https://www.linkedin.com/in/muhammadasad0/*
+- 💻 GitHub: *https://github.com/asadmukhtarr*
+- 🌍 Portfolio: **https://asadmukhtar.online**
+- 📧 Email: *contact@asadmukhtar.online*
+
+---
+
+# ⭐ Support
+
+If you found this project useful, consider giving it a ⭐ on GitHub.
+
+It helps the project reach more developers and motivates future improvements.
+
+---
+
+# 🙏 Acknowledgements
+
+Special thanks to the open-source community and the creators of:
+
+- Node.js
+- Express.js
+- MongoDB
+- Bootstrap
+- EJS
+- Font Awesome
+- Chart.js
+
+Their amazing tools made this project possible.
+
+---
+
+<p align="center">
+
+### ⭐ Don't forget to Star this Repository ⭐
+
+Made with ❤️ by **Muhammad Asad**
+
+</p>
 
